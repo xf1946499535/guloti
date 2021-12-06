@@ -14,7 +14,8 @@
             <div class="searchbtn">搜索</div>
           </div>
           <div class="h_item loginbox">
-            <div class="login_btn">登录</div>
+            <div class="login_btn" @click="routeto('/login')">登录</div>
+            <div class="register_btn" @click="routeto('/register')">注册</div>
           </div>
         </div></el-header
       >
@@ -121,6 +122,9 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    routeto(path, param) {
+      this.$router.push(path);
+    },
   },
 };
 </script>
@@ -176,17 +180,25 @@ export default {
     }
     .loginbox {
       position: relative;
-      .login_btn {
-        position: absolute;
-        right: 20px;
+      display: flex;
+      justify-content: flex-end;
+      .login_btn,
+      .register_btn {
         width: 15%;
+        border-radius: 5px;
         text-align: center;
         font-size: 1rem;
         cursor: pointer;
+        margin: auto 10px;
         color: #fff;
         height: 40px;
         line-height: 40px;
         background-color: rgb(64, 158, 255);
+      }
+      .register_btn {
+        background-color: rgb(223, 223, 223);
+        color: rgb(64, 158, 255);
+        text-decoration-line: underline;
       }
     }
   }

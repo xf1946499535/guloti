@@ -12,7 +12,9 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import Video from 'video.js'
 import 'video.js/dist/video-js.css'
+import VueParticles from 'vue-particles'
 
+Vue.use(VueParticles)
 Vue.prototype.$video = Video
 Vue.use(VueQuillEditor)
 Vue.config.productionTip = false

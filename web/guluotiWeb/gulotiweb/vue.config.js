@@ -13,7 +13,6 @@ module.exports = {
         ws: true, // 是否开启 websokets
         secure: false, // 是否安全，https 为 true，http 为 false
         changeOrigin: true,
-
       },
     },
     disableHostCheck: true,

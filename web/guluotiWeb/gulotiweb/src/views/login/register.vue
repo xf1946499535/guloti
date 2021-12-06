@@ -1,27 +1,7 @@
 <template>
-  <div class="login">
-    <vue-particles
-      color="#fff"
-      :particle-opacity="0.8"
-      :particles-number="70"
-      shape-type="circle"
-      :particle-size="4"
-      lines-color="#fff"
-      :lines-width="1"
-      :line-linked="true"
-      :line-opacity="0.4"
-      :lines-distance="150"
-      :move-speed="2"
-      :hover-effect="true"
-      hover-mode="grab"
-      :click-effect="true"
-      click-mode="push"
-      class="lizi"
-      style="height: 100%"
-    />
+  <div class="register">
     <div class="main_box">
-      <div class="title" title="返回首页" @click="routeto('/')">Guloti</div>
-      <div class="loginbox" @keydown.enter="loginsubmit('ruleForm')">
+      <div class="loginbox">
         <el-form
           :model="ruleForm"
           status-icon
@@ -30,20 +10,30 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="账号" prop="account">
+          <el-form-item label="账号" prop="account" required>
             <el-input v-model.number="ruleForm.account"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pwd">
+          <el-form-item label="密码" prop="pwd" required>
             <el-input
               type="password"
               v-model="ruleForm.pwd"
               autocomplete="off"
             ></el-input>
           </el-form-item>
+          <el-form-item label="确认密码" prop="checkpwd" required>
+            <el-input
+              type="password"
+              v-model="ruleForm.checkpwd"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="真实姓名" prop="name" required>
+            <el-input v-model.number="ruleForm.name"></el-input>
+          </el-form-item>
         </el-form>
-        <div class="submit_b" @click="loginsubmit('ruleForm')">
-          <span style="margin-right: 20px; display: inline-block">登</span
-          ><span>录</span>
+        <div class="submit_b" @click="registersubmit('ruleForm')">
+          <span style="margin-right: 20px; display: inline-block">注</span
+          ><span>册</span>
         </div>
       </div>
     </div>
@@ -51,7 +41,6 @@
 </template>
 
 <script>
-// import router from "";
 import { login } from "@/api/loginAPI";
 import { setssoLocal } from "@/utils/sso";
 
@@ -63,6 +52,12 @@ export default {
       }
       callback();
     };
+    var validateName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("名字不能为空"));
+      }
+      callback();
+    };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -70,24 +65,37 @@ export default {
         callback();
       }
     };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.pwd) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       ruleForm: {
         pwd: "",
+        checkpwd: "",
         account: "",
+        name: "",
       },
       rules: {
         pwd: [{ validator: validatePass, trigger: "blur" }],
         account: [{ validator: checkAccount, trigger: "blur" }],
+        checkpwd: [{ validator: validatePass2, trigger: "blur" }],
+        name: [{ validator: validateName, trigger: "blur" }],
       },
     };
   },
   methods: {
-    loginsubmit(formName) {
+    registersubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var query = {
-            adminName: this.ruleForm.account,
-            adminPassword: this.ruleForm.pwd,
+            admin_name: this.ruleForm.account,
+            admin_password: this.ruleForm.pwd,
           };
           login(query)
             .then((res) => {
@@ -95,7 +103,6 @@ export default {
               // setssoLocal(res.data.token);
               // sessionStorage.setItem("me", JSON.stringify(res.data.data));
               // this.$router.push("/");
-              console.log("登陆成功");
             })
             .catch((err) => {
               this.$notify.error({
@@ -118,12 +125,11 @@ export default {
 </script>
 <style lang="scss">
 @import "@/styles/un_color.scss";
-.login {
+.register {
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 500px;
-  background-color: $UN_main;
   .main_box {
     position: absolute;
     width: 700px;
@@ -134,11 +140,11 @@ export default {
     flex-direction: column;
     align-items: center;
     height: 400px;
-  }
-  .loginbox {
-    width: 40rem;
-    height: 40rem;
-    font-size: 2rem;
+    .loginbox {
+      width: 40rem;
+      height: 40rem;
+      font-size: 2rem;
+    }
   }
   .title {
     color: $font;
