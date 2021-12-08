@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { login } from "@/api/loginAPI";
+import { register } from "@/api/loginAPI";
 import { setssoLocal } from "@/utils/sso";
 
 export default {
@@ -93,21 +93,23 @@ export default {
     registersubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          var query = {
-            admin_name: this.ruleForm.account,
-            admin_password: this.ruleForm.pwd,
+          var data = {
+            account: this.ruleForm.account,
+            password: this.ruleForm.pwd,
+            name: this.ruleForm.name,
           };
-          login(query)
+          register(data)
             .then((res) => {
-              // localStorage.setItem("token", res.data.token);
-              // setssoLocal(res.data.token);
-              // sessionStorage.setItem("me", JSON.stringify(res.data.data));
-              // this.$router.push("/");
+              this.$message({
+                message: "注册成功",
+                type: "success",
+              });
+              this.$router.push("/login");
             })
             .catch((err) => {
               this.$notify.error({
-                title: "登陆失败",
-                message: "请检查用户名和密码是否正确",
+                title: "注册失败",
+                message: "服务器错误",
               });
               console.log("error submit!!");
             });

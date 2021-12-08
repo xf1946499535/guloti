@@ -1,2 +1,3 @@
-guluotiweb 8200
-guluoti_koa 3200
+gulotiweb 8200
+guloti_koa 3200
+guloti_node 3201

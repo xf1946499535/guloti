@@ -1,4 +1,5 @@
 const router = require('koa-router')()
+router.prefix('/glt/users')
 
 router.get('/', async (ctx, next) => {
   await ctx.render('index', {
