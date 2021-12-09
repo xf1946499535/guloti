@@ -12,7 +12,7 @@ export const querynewdetall = (query) => {
 
 export const login = (data) => {
     return n_axios.request({
-        url: '/union/login',
+        url: 'http://localhost:3201/glt/users/login',
         method: 'post',
         data: data
     })

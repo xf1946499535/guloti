@@ -98,21 +98,22 @@ export default {
             password: this.ruleForm.pwd,
             name: this.ruleForm.name,
           };
-          register(data)
-            .then((res) => {
-              this.$message({
-                message: "注册成功",
-                type: "success",
-              });
-              this.$router.push("/login");
-            })
-            .catch((err) => {
-              this.$notify.error({
-                title: "注册失败",
-                message: "服务器错误",
-              });
-              console.log("error submit!!");
-            });
+          register(data).then(
+            (res) => {
+              if (res.status != 200) {
+                this.$message.error(res.data.message);
+              } else {
+                this.$message({
+                  message: "注册成功",
+                  type: "success",
+                });
+                this.$router.push("/login");
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         } else {
           console.log("error submit!!");
           return false;

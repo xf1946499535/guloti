@@ -86,16 +86,28 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var query = {
-            adminName: this.ruleForm.account,
-            adminPassword: this.ruleForm.pwd,
+            account: this.ruleForm.account,
+            password: this.ruleForm.pwd,
           };
           login(query)
             .then((res) => {
+              console.log(res);
+              if (res.data.code != 200) {
+                this.$notify.error({
+                  title: "登陆失败",
+                  message: res.message,
+                });
+              } else {
+                this.$message({
+                  message: "登陆成功",
+                  type: "success",
+                });
+                console.log(res.data.data.userid);
+              }
               // localStorage.setItem("token", res.data.token);
               // setssoLocal(res.data.token);
               // sessionStorage.setItem("me", JSON.stringify(res.data.data));
               // this.$router.push("/");
-              console.log("登陆成功");
             })
             .catch((err) => {
               this.$notify.error({
