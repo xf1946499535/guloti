@@ -1,0 +1,24 @@
+const {
+    json
+} = require('express');
+var express = require('express');
+var router = express.Router();
+var sqlQuery = require('../module/lcMysql')
+var sqltool = require('../module/sqltool');
+/* GET users listing. */
+/*资讯列表查询*/
+router.get('/carnewslist', async function (req, res, next) {
+    try {
+        var str = 'select * from car_news'
+        var sqlres = await sqlQuery(str)
+        res.status(200).json({
+            message: "查询成功",
+            data: sqlres
+        })
+    } catch (error) {
+        next(error)
+    }
+});
+
+
+module.exports = router;

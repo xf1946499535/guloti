@@ -43,7 +43,9 @@
           </el-row>
         </el-aside>
         <el-main>
-          <router-view></router-view>
+          <div class="main_page">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -135,10 +137,12 @@ export default {
     background-color: #fff;
   }
   .header {
-    position: relative;
+    position: fixed;
+    z-index: 100;
     width: 100%;
     height: 60px;
     display: flex;
+    background-color: #fff;
     .h_item {
       position: relative;
       width: 33%;
@@ -201,6 +205,10 @@ export default {
         text-decoration-line: underline;
       }
     }
+  }
+  .tac {
+    position: fixed;
+    z-index: 100;
   }
 }
 </style>
