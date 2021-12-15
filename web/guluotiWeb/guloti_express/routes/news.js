@@ -20,5 +20,19 @@ router.get('/carnewslist', async function (req, res, next) {
     }
 });
 
+/*单条资讯查询*/
+router.get('/carnews', async function (req, res, next) {
+    try {
+        var str = `select * from car_news where id=${req.query.id}`
+        var sqlres = await sqlQuery(str)
+        res.status(200).json({
+            message: "查询成功",
+            data: sqlres[0]
+        })
+    } catch (error) {
+        next(error)
+    }
+});
+
 
 module.exports = router;

@@ -2,10 +2,16 @@
   <div class="car_cards">
     <el-card :body-style="{ padding: '0px' }">
       <div class="newsimg">
-        <img :src="newsmsg.news_headimg_url" alt="" />
+        <img
+          :src="newsmsg.news_headimg_url"
+          @click="routeto('/news_show', newsmsg.id)"
+          alt=""
+        />
       </div>
       <div class="news_info">
-        <div class="newstitle">{{ this.newsmsg.news_title }}</div>
+        <div class="newstitle" @click="routeto('/news_show', newsmsg.id)">
+          {{ this.newsmsg.news_title }}
+        </div>
         <div class="news_info_time">
           <span>{{ this.newsmsg.playtimes }}万次播放</span>
           <br />
@@ -20,9 +26,12 @@
 export default {
   props: ["newsmsg"],
   data() {
-    return {
-      currentDate: new Date(),
-    };
+    return {};
+  },
+  methods: {
+    routeto(path, data) {
+      this.$router.push({ path: path, query: { id: data } });
+    },
   },
 };
 </script>

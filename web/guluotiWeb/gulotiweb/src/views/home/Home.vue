@@ -3,7 +3,7 @@
     <el-container>
       <el-header
         ><div class="header">
-          <div class="h_item logo" title="返回首页">
+          <div class="h_item logo" title="返回首页" @click="routeto('/')">
             <img
               src="http://47.108.230.246:8080/guloti/GulotiResource/Guloti_Logo.png"
               alt=""

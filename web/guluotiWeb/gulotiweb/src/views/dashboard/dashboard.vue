@@ -23,12 +23,19 @@
       >
         <carcard :newsmsg="item"></carcard>
       </div>
+      <div
+        class="news_list_item"
+        v-for="(item, index) in news_list"
+        :key="index + 'newslist1'"
+      >
+        <carcard :newsmsg="item"></carcard>
+      </div>
     </div>
 
     <!-- <video id="myVideo" class="video-js">
       <meta name="referrer" content="never" />
       <source
-        src="https://v6-default.ixigua.com/f05d0efaf2cdaf09f7ba4ef9817bd12b/61ab3654/video/tos/cn/tos-cn-ve-4-alinc2/aecc1cd7f3514c13bc58add344945f74/?a=0&br=4799&bt=4799&cd=0%7C0%7C1&ch=0&cr=0&cs=0&cv=1&dr=0&ds=4&er=0&ft=teqIn88-o10DN7nh7TQ_plXxuhsd8ly8HqY&l=2021120416303001021213803308FC8ECC&lr=xigua&mime_type=video_mp4&net=0&pl=0&qs=0&rc=M3Ntcmg6ZmR5OTMzNDczM0ApaTRnPDQ7NGU1Nzc1OTQ1OmcxY3BycjQwLWhgLS1kLWFzcy1iYTEyYC1hMS9hYzQxMV46Yw==&vl=&vr="
+        src="https://v6-default.ixigua.com/0cba615e88eb5ac45b86ea6666a3c13c/61b98af2/video/tos/cn/tos-cn-ve-4-alinc2/560b8c30b5854388976fa3b181254416/?a=0&br=2574&bt=2574&cd=0%7C0%7C0&ch=0&cr=0&cs=0&dr=0&ds=4&er=0&ft=teqIn88-o10DN7nh7TQ_plXxuhsdB9XsHqY&l=20211215132506010212202081033133CA&lr=xigua&mime_type=video_mp4&net=0&pl=0&qs=0&rc=M2dxOmk6ZnNwOTMzNDczM0ApNzk0OTU1OmU7N2c8NThnZWdfMDRncjRfM3BgLS1kLS9zcy8tMy4vLWM2L2AuM15fYjQ6Yw%3D%3D&vl=&vr="
         type="video/mp4"
       />
     </video> -->
@@ -37,7 +44,7 @@
 
 <script>
 import carcard from "./components/car_card.vue";
-import { getnews } from "@/api/car_news";
+import { getnewslist } from "@/api/car_news";
 export default {
   components: { carcard },
   data() {
@@ -75,9 +82,8 @@ export default {
       });
     },
     getNewslist() {
-      getnews().then((res) => {
+      getnewslist().then((res) => {
         this.news_list = res.data.data;
-        console.log(this.news_list);
       });
     },
   },

@@ -9,10 +9,16 @@ const routes = [{
     redirect: '/dashboard',
     component: () => import( /* webpackChunkName: "about" */ '../views/home/Home.vue'),
     children: [{
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import( /* webpackChunkName: "about" */ '../views/dashboard/dashboard.vue'),
-    }]
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import( /* webpackChunkName: "about" */ '../views/dashboard/dashboard.vue'),
+      },
+      {
+        path: '/news_show',
+        name: 'news_show',
+        component: () => import( /* webpackChunkName: "about" */ '../views/dashboard/components/news_show.vue'),
+      }
+    ]
   },
   {
     path: '/login',
