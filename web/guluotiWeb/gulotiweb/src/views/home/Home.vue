@@ -34,6 +34,7 @@
                   v-for="(item, index) in asidelist"
                   :key="index + 'asidelist'"
                   :index="item.index"
+                  @click="routeto(item.path)"
                 >
                   <i :class="item.classicon"></i>
                   <span slot="title">{{ item.title }}</span>
@@ -61,11 +62,13 @@ export default {
           index: "1",
           classicon: "el-icon-menu",
           title: "首页",
+          path: "/dashboard",
         },
         {
           index: "2",
           classicon: "el-icon-discount",
           title: "选车",
+          path: "/carstore",
         },
         {
           index: "3",

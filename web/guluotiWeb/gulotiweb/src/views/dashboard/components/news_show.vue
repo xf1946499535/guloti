@@ -4,6 +4,13 @@
       <meta name="referrer" content="never" />
       <source :src="url" type="video/mp4" />
     </video>
+    <div class="news_info">
+      <div class="news_info_title">{{ news_msg.news_title }}</div>
+      <div class="news_info_time">
+        <span>发布于{{ news_msg.news_time }}</span>
+        <span>播放{{ news_msg.playtimes }}万次</span>
+      </div>
+    </div>
     <div>{{ news_msg }}</div>
   </div>
 </template>
@@ -65,6 +72,19 @@ export default {
   #myVideo {
     width: 100%;
     height: 500px;
+  }
+  .news_info_title {
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .news_info_time {
+    color: rgb(133, 132, 132);
+    span {
+      font-size: 1rem;
+      padding-right: 2rem;
+    }
   }
 }
 </style>

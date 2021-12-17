@@ -17,7 +17,11 @@ const routes = [{
         path: '/news_show',
         name: 'news_show',
         component: () => import( /* webpackChunkName: "about" */ '../views/dashboard/components/news_show.vue'),
-      }
+      }, {
+        path: '/carstore',
+        name: 'carstore',
+        component: () => import( /* webpackChunkName: "about" */ '../views/carstore/carstore.vue'),
+      },
     ]
   },
   {
