@@ -7,6 +7,8 @@ const cors = require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var newsRouter = require('./routes/news');
+var carsRouter = require('./routes/cars');
+
 var bodyParser = require('body-parser');
 
 //此处需要进行mysql连接操作，已安装mysql模块，，
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/glt/users', usersRouter);
 app.use('/glt/news', newsRouter);
+app.use('/glt/cars', carsRouter);
 
 
 
