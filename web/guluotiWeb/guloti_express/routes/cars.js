@@ -18,5 +18,15 @@ router.get('/getbrandlist', async function (req, res, next) {
     }
 });
 
+/*查询车辆列表 */
+router.get('/getcarslist', async function (req, res, next) {
+    try {
+        cars.getcarslist(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
+
+
 
 module.exports = router;
