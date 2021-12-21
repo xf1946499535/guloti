@@ -21,14 +21,14 @@
         v-for="(item, index) in news_list"
         :key="index + 'newslist'"
       >
-        <carcard :newsmsg="item"></carcard>
+        <newscard :newsmsg="item"></newscard>
       </div>
       <div
         class="news_list_item"
         v-for="(item, index) in news_list"
         :key="index + 'newslist1'"
       >
-        <carcard :newsmsg="item"></carcard>
+        <newscard :newsmsg="item"></newscard>
       </div>
     </div>
 
@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import carcard from "./components/car_card.vue";
+import newscard from "./components/news_card.vue";
 import { getnewslist } from "@/api/car_news";
 export default {
-  components: { carcard },
+  components: { newscard },
   data() {
     return {
       //轮播图列表

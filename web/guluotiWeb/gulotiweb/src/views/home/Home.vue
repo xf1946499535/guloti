@@ -102,8 +102,8 @@ export default {
         },
         {
           index: "9",
-          classicon: "el-icon-video-play",
-          title: "视频",
+          classicon: "el-icon-s-home",
+          title: "车库",
         },
         {
           index: "10",

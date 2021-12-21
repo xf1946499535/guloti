@@ -21,6 +21,10 @@ const routes = [{
         path: '/carstore',
         name: 'carstore',
         component: () => import( /* webpackChunkName: "about" */ '../views/carstore/carstore.vue'),
+      }, {
+        path: '/carbuy',
+        name: 'carbuy',
+        component: () => import( /* webpackChunkName: "about" */ '../views/carstore/carbuy.vue'),
       },
     ]
   },

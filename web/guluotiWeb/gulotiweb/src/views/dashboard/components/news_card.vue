@@ -1,5 +1,5 @@
 <template>
-  <div class="car_cards">
+  <div class="news_card">
     <el-card :body-style="{ padding: '0px' }">
       <div class="newsimg">
         <img
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="scss">
-.car_cards {
+.news_card {
   width: 100%;
   .newsimg {
     font-size: 0;

@@ -13,7 +13,59 @@ const cars = {
         try {
             var str = 'select * from brand'
             var term = req.query.intial == -1 ? `` : ` where brand_intial='${req.query.intial}'`
-            console.log(str + term);
+            var sqlres = await sqlQuery(str + term)
+            res.status(200).json({
+                message: "查询成功",
+                data: sqlres
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    //根据条件获取车辆列表
+    async getcarslist(req, res, next) {
+        /*
+        req.query.myscreen
+          0：品牌
+          1：价格
+          2:级别
+        */
+        try {
+            var str = `select * from car where 1=1`
+            var term = ''
+            if (req.query.myscreen[0] != -1) {
+                term += ` and car_brand = '${req.query.myscreen[0]}'`
+            }
+            if (req.query.myscreen[1] != -1) {
+                term += ` and car_price_low >= ${req.query.myscreen[1]} and car_price_high <= ${req.query.myscreen[2]}`
+            }
+            if (req.query.myscreen[3] != -1) {
+                term += ` and car_type = '${req.query.myscreen[3]}'`
+            }
+            console.log(req.query.myscreen);
+
+            console.log((str + term));
+
+            var sqlres = await sqlQuery(str + term)
+            res.status(200).json({
+                message: "查询成功",
+                data: sqlres
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    //id获取单个车辆信息
+    async getcarinfo(req, res, next) {
+        /*
+            req.query.id
+             车辆id
+            */
+        try {
+            var str = `select * from car`
+            var term = ` where id=${req.query.id}`
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
                 message: "查询成功",
