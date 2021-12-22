@@ -9,10 +9,17 @@ const request = axios.create({
 })
 //axios设置请求拦截器
 request.interceptors.request.use(config => {
+    if (sessionStorage.getItem('myid')) {
+        return Promise.reject({
+            code: 20000,
+            message: '请先完成登录'
+        })
+    } else {
+        return config
+    }
     // config.headers.token = getCookie("token") //设置响应头
-    return config
 }, err => {
-    console.log(err)
+    // console.log(err)
     return Promise.reject(err)
 })
 

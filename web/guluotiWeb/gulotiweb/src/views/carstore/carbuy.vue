@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="buycarBtn">询问商家</div>
-        <div class="buycarBtn">购买此车</div>
+        <div class="buycarBtn" @click="buycarsubmit(car.id)">购买此车</div>
       </div>
       <div class="main_mid">
         <div class="sliberimg_l">
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getcarinfo } from "@/api/cars";
+import { getcarinfo, buycar } from "@/api/cars";
 export default {
   created() {
     this.init();
@@ -63,6 +63,21 @@ export default {
         this.sliberimg = res.data.data[0].car_exhibition_list.split("$");
         console.log(this.car);
       });
+    },
+    buycarsubmit(carid) {
+      buycar(carid).then(
+        (res) => {
+          console.log("成功了");
+        },
+        (err) => {
+          // console.log(err);
+          this.$notify.error({
+            title: "无法购买",
+            message: err.message,
+          });
+          this.$router.push("/login");
+        }
+      );
     },
   },
 };

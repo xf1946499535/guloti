@@ -11,7 +11,6 @@ const users = {
         try {
             var str = 'select * from user'
             var term = ` where id=${req.query.id}`
-            console.log(str + term);
             var sqlres = await sqlQuery(str + term)
             sqlres[0].password = '******'
             res.status(200).json({
