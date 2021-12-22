@@ -53,6 +53,7 @@
 <script>
 // import router from "";
 import { login } from "@/api/loginAPI";
+import { getUser } from "@/api/users";
 import { setssoLocal } from "@/utils/sso";
 
 export default {
@@ -102,7 +103,13 @@ export default {
                   message: "登陆成功",
                   type: "success",
                 });
-                console.log(res.data.data.userid);
+                sessionStorage.setItem(
+                  "myid",
+                  JSON.stringify(res.data.data.userid)
+                );
+                getUser(sessionStorage.getItem("myid")).then((res) => {
+                  this.$store.commit("setme", res.data.data[0]);
+                });
               }
               // localStorage.setItem("token", res.data.token);
               // setssoLocal(res.data.token);

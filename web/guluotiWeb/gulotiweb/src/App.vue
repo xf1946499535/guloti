@@ -4,6 +4,22 @@
   </div>
 </template>
 <script>
+import { getUser } from "@/api/users";
+export default {
+  created() {
+    this.setLoguser();
+  },
+  methods: {
+    setLoguser() {
+      if (sessionStorage.getItem("myid")) {
+        getUser(sessionStorage.getItem("myid")).then((res) => {
+          this.$store.commit("setme", res.data.data[0]);
+          console.log(this.$store.getters.getme);
+        });
+      }
+    },
+  },
+};
 </script>
 <style lang="scss">
 #app {

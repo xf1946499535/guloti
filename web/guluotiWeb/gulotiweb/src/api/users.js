@@ -1,19 +1,12 @@
-import h_axios from "@/utils/http"
+import ln_axios from '@/utils/locnor'
 
-//根据token获取当前用户
-export const getUserByToken = (data) => {
-    return h_axios.request({
-        url: '/union/getTokenInfo',
-        method: 'post',
-        data: data
+//根据id获取当前用户
+export const getUser = (id) => {
+    return ln_axios.request({
+        url: '/glt/users/getuser',
+        method: 'get',
+        params: {
+            id: id
+        }
     })
-}
-
-////获取用户列表
-export const getUserList = (data) => {
-  return h_axios.request({
-      url: '/admin/getAllInfoOfAdmin',
-      method: 'post',
-      data: data
-  })
 }

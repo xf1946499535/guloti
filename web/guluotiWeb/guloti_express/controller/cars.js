@@ -43,9 +43,9 @@ const cars = {
             if (req.query.myscreen[3] != -1) {
                 term += ` and car_type = '${req.query.myscreen[3]}'`
             }
-            console.log(req.query.myscreen);
+            // console.log(req.query.myscreen);
 
-            console.log((str + term));
+            // console.log((str + term));
 
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
@@ -57,15 +57,15 @@ const cars = {
         }
     },
 
-    //id获取单个车辆信息
+    //id获取单个车辆信息以及品牌基本信息
     async getcarinfo(req, res, next) {
         /*
             req.query.id
              车辆id
-            */
+            */                                                                                                                                                                                                                                                                                                                   
         try {
-            var str = `select * from car`
-            var term = ` where id=${req.query.id}`
+            var str = `SELECT car.*,brand.brand_logo FROM car LEFT JOIN brand ON car.car_brandid=brand.id`
+            var term = ` where car.id=${req.query.id}`
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
                 message: "查询成功",

@@ -5,6 +5,8 @@ var express = require('express');
 var router = express.Router();
 var sqlQuery = require('../module/lcMysql')
 var sqltool = require('../module/sqltool');
+var users = require('../controller/users')
+
 /* GET users listing. */
 /*用户注册*/
 router.post('/register', async function (req, res, next) {
@@ -49,5 +51,12 @@ router.post('/login', async function (req, res, next) {
   }
 });
 
+router.get('/getuser', async function (req, res, next) {
+  try {
+    users.getuser(req, res, next)
+  } catch (error) {
+    next(error)
+  }
+});
 
 module.exports = router;

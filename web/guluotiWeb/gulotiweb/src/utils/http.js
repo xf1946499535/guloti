@@ -4,10 +4,13 @@ import {
   getCookie
 } from "@/utils/sso";
 // 配置请求的基准URL地址
-axios.defaults.baseURL = '/api'
+
+const request = axios.create({
+  baseURL: '/api'
+})
 
 //axios设置请求拦截器
-axios.interceptors.request.use(config => {
+axiorequests.interceptors.request.use(config => {
   // config.headers.token = getCookie("token") //设置响应头
   return config
 }, err => {
@@ -16,11 +19,11 @@ axios.interceptors.request.use(config => {
 })
 
 //axios设置响应拦截器
-axios.interceptors.response.use(response => {
+request.interceptors.response.use(response => {
   return response //拦截处理响应结果，直接返回需要的数据
 }, err => {
   console.log(err)
   return Promise.reject(err)
 })
 
-export default axios
+export default request

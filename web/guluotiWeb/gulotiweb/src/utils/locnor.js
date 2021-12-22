@@ -2,10 +2,8 @@
 import axios from 'axios'
 // 配置请求的基准URL地址
 const request = axios.create({
-    baseURL: '/api'
+    baseURL: '/loc'
 })
-
-
 //axios设置请求拦截器
 request.interceptors.request.use(config => {
     return config
