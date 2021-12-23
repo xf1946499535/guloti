@@ -26,6 +26,11 @@ const routes = [{
         name: 'carbuy',
         component: () => import( /* webpackChunkName: "about" */ '../views/carstore/carbuy.vue'),
       },
+      {
+        path: '/aboutme',
+        name: 'aboutme',
+        component: () => import( /* webpackChunkName: "about" */ '../views/aboutme/aboutme.vue'),
+      },
     ]
   },
   {

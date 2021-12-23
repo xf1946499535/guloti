@@ -34,7 +34,7 @@ router.post('/login', async function (req, res, next) {
   var user = (await sqlQuery(str, [req.body.account]))[0]
   if (user && user.password == req.body.password) {
     res.status(200).json({
-      code: 200,
+      code: 20000,
       data: {
         userid: user.id
       },
@@ -42,7 +42,7 @@ router.post('/login', async function (req, res, next) {
     })
   } else {
     res.status(200).json({
-      code: 500,
+      code: 20001,
       data: {
         userid: null
       },

@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var newsRouter = require('./routes/news');
 var carsRouter = require('./routes/cars');
+var barnRouter = require('./routes/barn');
+
 
 var bodyParser = require('body-parser');
 
@@ -38,6 +40,7 @@ app.use('/', indexRouter);
 app.use('/glt/users', usersRouter);
 app.use('/glt/news', newsRouter);
 app.use('/glt/cars', carsRouter);
+app.use('/glt/barn', barnRouter);
 
 
 

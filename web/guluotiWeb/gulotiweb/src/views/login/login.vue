@@ -93,7 +93,7 @@ export default {
           login(query)
             .then((res) => {
               console.log(res);
-              if (res.data.code != 200) {
+              if (res.data.code != 20000) {
                 this.$notify.error({
                   title: "登陆失败",
                   message: res.message,
@@ -110,6 +110,7 @@ export default {
                 getUser(sessionStorage.getItem("myid")).then((res) => {
                   this.$store.commit("setme", res.data.data[0]);
                 });
+                this.$router.push("/");
               }
               // localStorage.setItem("token", res.data.token);
               // setssoLocal(res.data.token);

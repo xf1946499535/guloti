@@ -10,6 +10,7 @@ export const getbrandlist = (intial) => {
         }
     })
 }
+sessionStorage.getItem('myid')
 //筛选数组获取汽车列表
 export const getcarslist = (myscreen) => {
     var screen = [];
@@ -37,6 +38,8 @@ export const getcarinfo = (id) => {
 
 //获取完成汽车购买
 export const buycar = (carid) => {
+
+    //此接口仅仅用来测试了登陆拦截，暂未开发后台相应接口
     return lh_axios.request({
         url: '/glt/cars/getcarinfo',
         method: 'post',

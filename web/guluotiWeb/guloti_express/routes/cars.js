@@ -35,6 +35,14 @@ router.get('/getcarinfo', async function (req, res, next) {
     }
 });
 
+/*汽车购买信息提交*/
+router.post('/buycar', async function (req, res, next) {
+    try {
+        cars.buycar(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
 
 
 module.exports = router;

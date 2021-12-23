@@ -13,7 +13,10 @@
             <input type="text" placeholder="大众" />
             <div class="searchbtn">搜索</div>
           </div>
-          <div class="h_item loginbox">
+          <div class="h_item welcome" v-if="$store.getters.getme">
+            {{ $store.getters.getme.name }},欢迎你!
+          </div>
+          <div class="h_item loginbox" v-else>
             <div class="login_btn" @click="routeto('/login')">登录</div>
             <div class="register_btn" @click="routeto('/register')">注册</div>
           </div>
@@ -109,6 +112,7 @@ export default {
           index: "10",
           classicon: "el-icon-user-solid",
           title: "我的",
+          path: "/aboutme",
         },
         {
           index: "11",
@@ -121,6 +125,9 @@ export default {
     };
   },
   methods: {
+    handleCommand(command) {
+      this.$message("click on item " + command);
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -136,6 +143,13 @@ export default {
 <style lang="scss">
 .home {
   background-color: rgb(247, 248, 252);
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409eff;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
   .el-header {
     background-color: #fff;
   }
@@ -151,6 +165,11 @@ export default {
       width: 33%;
       height: 40px;
       margin: auto 0;
+    }
+    .welcome {
+      font-size: 1.2rem;
+      text-align: center;
+      line-height: 40px;
     }
     .logo {
       cursor: pointer;

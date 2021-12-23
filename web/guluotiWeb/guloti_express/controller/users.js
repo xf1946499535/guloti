@@ -14,6 +14,7 @@ const users = {
             var sqlres = await sqlQuery(str + term)
             sqlres[0].password = '******'
             res.status(200).json({
+                code: 20000,
                 message: "查询成功",
                 data: sqlres
             })

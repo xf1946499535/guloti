@@ -1,5 +1,47 @@
 <template>
   <div class="carbuy">
+    <el-dialog title="请确认订单信息" :visible.sync="dialogFormVisible">
+      <el-form :model="buycarform" size="mini">
+        <el-form-item label="汽车名称" :label-width="formLabelWidth">
+          {{ car.car_name }}/{{ car.car_brand }}
+        </el-form-item>
+        <el-form-item label="产地" :label-width="formLabelWidth">
+          {{ car.car_manufacture_addr }}
+        </el-form-item>
+        <el-form-item label="价格" :label-width="formLabelWidth">
+          {{ car.car_price_low }}w
+        </el-form-item>
+        <el-form-item label="下单日期" :label-width="formLabelWidth">
+          {{ new Date() }}
+        </el-form-item>
+        <el-form-item label="购买人" :label-width="formLabelWidth">
+          {{ $store.getters.getme.name }}
+        </el-form-item>
+        <el-form-item label="购买须知" :label-width="formLabelWidth">
+          <el-input
+            type="textarea"
+            placeholder="请输入内容"
+            v-model="car.car_introduce"
+            :disabled="true"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="支付密码" :label-width="formLabelWidth">
+          <el-input
+            v-model="paypassword"
+            show-password
+            placeholder="请输入您的密码"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false"
+          >确 认 支 付</el-button
+        >
+      </div>
+    </el-dialog>
     <div class="carbuy_main">
       <div class="main_aside">
         <div class="carname">
@@ -22,7 +64,7 @@
           </div>
         </div>
         <div class="buycarBtn">询问商家</div>
-        <div class="buycarBtn" @click="buycarsubmit(car.id)">购买此车</div>
+        <div class="buycarBtn" @click="buycarbtn()">购买此车</div>
       </div>
       <div class="main_mid">
         <div class="sliberimg_l">
@@ -52,8 +94,17 @@ export default {
   },
   data() {
     return {
+      //汽车信息
       car: {},
+      //汽车图片
       sliberimg: [],
+      //dialog框开关
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      buycarform: {},
+      //支付密码
+      paypassword: "",
+      formLabelWidth: "120px",
     };
   },
   methods: {
@@ -61,23 +112,24 @@ export default {
       getcarinfo(this.$route.query.data).then((res) => {
         this.car = res.data.data[0];
         this.sliberimg = res.data.data[0].car_exhibition_list.split("$");
-        console.log(this.car);
+        // console.log(this.car);
       });
     },
-    buycarsubmit(carid) {
-      buycar(carid).then(
-        (res) => {
-          console.log("成功了");
-        },
-        (err) => {
-          // console.log(err);
-          this.$notify.error({
-            title: "无法购买",
-            message: err.message,
-          });
-          this.$router.push("/login");
-        }
-      );
+    buycarbtn() {
+      this.dialogFormVisible = true;
+      // buycar(carid).then(
+      //   (res) => {
+      //     console.log("成功了");
+      //   },
+      //   (err) => {
+      //     // console.log(err);
+      //     this.$notify.error({
+      //       title: "无法购买",
+      //       message: err.message,
+      //     });
+      //     this.$router.push("/login");
+      //   }
+      // );
     },
   },
 };

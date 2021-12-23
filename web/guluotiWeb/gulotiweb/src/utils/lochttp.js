@@ -11,7 +11,7 @@ const request = axios.create({
 request.interceptors.request.use(config => {
     if (sessionStorage.getItem('myid')) {
         return Promise.reject({
-            code: 20000,
+            code: 20001,
             message: '请先完成登录'
         })
     } else {

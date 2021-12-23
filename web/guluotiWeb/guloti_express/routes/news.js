@@ -12,6 +12,7 @@ router.get('/carnewslist', async function (req, res, next) {
         var str = 'select * from car_news'
         var sqlres = await sqlQuery(str)
         res.status(200).json({
+            code: 20000,
             message: "查询成功",
             data: sqlres
         })
@@ -26,6 +27,7 @@ router.get('/carnews', async function (req, res, next) {
         var str = `select * from car_news where id=${req.query.id}`
         var sqlres = await sqlQuery(str)
         res.status(200).json({
+            code: 20000,
             message: "查询成功",
             data: sqlres[0]
         })
