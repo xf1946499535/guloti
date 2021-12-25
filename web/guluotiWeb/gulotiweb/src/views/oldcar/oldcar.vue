@@ -1,23 +1,20 @@
 <template>
-  <div class="barn">
+  <div class="oldcar">
     <div class="carlist" v-loading="loading">
-      <barncarlist :carslist="cars" @getcarsinbarn="init"></barncarlist>
+      <oldcarlist :carslist="cars" @getcarsinbarn="init"></oldcarlist>
     </div>
   </div>
 </template>
 
 <script>
-import barncarlist from "./components/barn_carlist.vue";
-import { getcarsinbarn } from "@/api/barn";
+import oldcarlist from "./components/oldcar_carlist.vue";
+import { getoldcarlist } from "@/api/oldcar";
 export default {
   components: {
-    barncarlist,
+    oldcarlist,
   },
   created() {
     this.init();
-    // getcarsinbarn().then((res) => {
-    //   this.cars = res.data.data;
-    // });
   },
   data() {
     return {
@@ -29,7 +26,7 @@ export default {
     init() {
       this.loading = true;
       //获取车库车辆列表
-      getcarsinbarn().then(
+      getoldcarlist().then(
         (res) => {
           this.cars = res.data.data;
           this.loading = false;
@@ -48,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-.barn {
+.oldcar {
   width: 100%;
   height: 800px;
   background: rgb(255, 255, 255);

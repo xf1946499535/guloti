@@ -99,12 +99,10 @@ const cars = {
             //账户余额验证
             let balancecheck = await modusers.balancecheck(car.car_price_low, req.body.userid)
             if (!balancecheck.check) {
-                res.json({
+                return res.json({
                     code: 20001,
                     message: "账户余额不足",
                 })
-            } else {
-
             }
 
 

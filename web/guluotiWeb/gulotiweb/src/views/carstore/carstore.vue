@@ -91,7 +91,7 @@
 
 <script>
 import { getbrandlist, getcarslist } from "@/api/cars";
-import carswindow from "@/components/cars/carswindow.vue";
+import carswindow from "./components/carswindow.vue";
 export default {
   components: {
     carswindow,

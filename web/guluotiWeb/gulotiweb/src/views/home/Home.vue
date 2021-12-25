@@ -77,6 +77,7 @@ export default {
           index: "3",
           classicon: "el-icon-price-tag",
           title: "二手车",
+          path: "/oldcar",
         },
         {
           index: "4",

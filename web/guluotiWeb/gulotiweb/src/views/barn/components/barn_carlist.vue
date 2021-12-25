@@ -73,7 +73,6 @@
             </div>
             <el-button
               v-show="car.sellstate == '在库'"
-              type="danger"
               size="small"
               @click="tosell(car)"
               round
