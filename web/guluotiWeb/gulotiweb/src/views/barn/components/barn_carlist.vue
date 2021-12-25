@@ -53,7 +53,7 @@
     </el-dialog>
     <div class="carlist_box">
       <div class="nothing" v-if="carslist.length == 0">
-        抱歉，暂未找到合适车型
+        抱歉，看起来您车库空空~~~
       </div>
       <div
         class="caritem"

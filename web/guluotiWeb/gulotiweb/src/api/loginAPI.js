@@ -1,4 +1,6 @@
-import n_axios from "@/utils/nor";
+import ln_axios from '@/utils/locnor'
+import lh_axios from '@/utils/lochttp'
+
 import axios from "axios";
 // import axios from "axios"
 
@@ -11,15 +13,15 @@ export const querynewdetall = (query) => {
 }
 
 export const login = (data) => {
-    return n_axios.request({
-        url: 'http://localhost:3201/glt/users/login',
+    return ln_axios.request({
+        url: '/glt/users/login',
         method: 'post',
         data: data
     })
 }
 export const register = (data) => {
-    return axios.request({
-        url: 'http://localhost:3201/glt/users/register',
+    return ln_axios.request({
+        url: '/glt/users/register',
         method: 'post',
         data: data
     })

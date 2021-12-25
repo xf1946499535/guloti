@@ -13,13 +13,15 @@ router.post('/register', async function (req, res, next) {
   try {
     //查重
     if (await sqltool.cnki('user', 'account', req.body.account)) {
-      res.status(300).json({
+      res.json({
+        code: 20001,
         message: "该账号已被注册",
       })
     } else {
       var str = 'insert into user(account,password,name) values(?,?,?);'
       await sqlQuery(str, [req.body.account, req.body.password, req.body.name])
-      res.status(200).json({
+      res.json({
+        code: 20000,
         message: "注册成功",
       })
     }
@@ -33,7 +35,7 @@ router.post('/login', async function (req, res, next) {
   var str = "select * from user where account=?"
   var user = (await sqlQuery(str, [req.body.account]))[0]
   if (user && user.password == req.body.password) {
-    res.status(200).json({
+    res.json({
       code: 20000,
       data: {
         userid: user.id
@@ -41,7 +43,7 @@ router.post('/login', async function (req, res, next) {
       message: "登陆成功",
     })
   } else {
-    res.status(200).json({
+    res.json({
       code: 20001,
       data: {
         userid: null
