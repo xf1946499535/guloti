@@ -14,7 +14,11 @@ request.interceptors.request.use(config => {
 
 //axios设置响应拦截器
 request.interceptors.response.use(response => {
-    return response //拦截处理响应结果，直接返回需要的数据
+    if (response.data.code != 20000) {
+        return Promise.reject(response.data)
+    } else {
+        return response //拦截处理响应结果，直接返回需要的数据
+    }
 }, err => {
     console.log(err)
     return Promise.reject(err)

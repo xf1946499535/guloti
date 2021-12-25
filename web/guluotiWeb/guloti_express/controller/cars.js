@@ -44,10 +44,6 @@ const cars = {
             if (req.query.myscreen[3] != -1) {
                 term += ` and car_type = '${req.query.myscreen[3]}'`
             }
-            // console.log(req.query.myscreen);
-
-            // console.log((str + term));
-
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
                 code: 20000,

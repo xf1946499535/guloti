@@ -1,6 +1,10 @@
 <template>
-  <div class="carbuy">
-    <el-dialog title="请确认订单信息" :visible.sync="dialogFormVisible">
+  <div class="carbuy" v-loading="loading">
+    <el-dialog
+      title="请确认订单信息"
+      :visible.sync="dialogFormVisible"
+      v-if="$store.getters.getme"
+    >
       <el-form :model="buycarform" size="mini">
         <el-form-item label="汽车名称" :label-width="formLabelWidth">
           {{ car.car_name }}/{{ car.car_brand }}
@@ -37,9 +41,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >确 认 支 付</el-button
-        >
+        <el-button type="primary" @click="buycarsubmit">确 认 支 付</el-button>
       </div>
     </el-dialog>
     <div class="carbuy_main">
@@ -105,31 +107,57 @@ export default {
       //支付密码
       paypassword: "",
       formLabelWidth: "120px",
+      loading: false,
     };
   },
   methods: {
     init() {
+      this.loading = true;
       getcarinfo(this.$route.query.data).then((res) => {
         this.car = res.data.data[0];
         this.sliberimg = res.data.data[0].car_exhibition_list.split("$");
+        this.loading = false;
         // console.log(this.car);
       });
     },
     buycarbtn() {
-      this.dialogFormVisible = true;
-      // buycar(carid).then(
-      //   (res) => {
-      //     console.log("成功了");
-      //   },
-      //   (err) => {
-      //     // console.log(err);
-      //     this.$notify.error({
-      //       title: "无法购买",
-      //       message: err.message,
-      //     });
-      //     this.$router.push("/login");
-      //   }
-      // );
+      if (!this.$store.getters.getme) {
+        this.$notify.error({
+          title: "无法购买",
+          message: "请完成登录",
+        });
+      } else {
+        this.dialogFormVisible = true;
+      }
+    },
+    buycarsubmit() {
+      this.loading = true;
+      var buycarform = {
+        carid: this.car.id,
+        userid: this.$store.getters.getme.id,
+        order_type: 0,
+        sell_id: this.car.car_brandid,
+        paypwd: this.paypassword,
+      };
+      buycar(buycarform).then(
+        (res) => {
+          this.$message({
+            message: "汽车成功入库",
+            type: "success",
+          });
+          this.dialogFormVisible = false;
+          this.loading = false;
+        },
+        (err) => {
+          // console.log(err);
+          this.$notify.error({
+            title: "无法购买",
+            message: err.message,
+          });
+          this.dialogFormVisible = false;
+          this.loading = false;
+        }
+      );
     },
   },
 };

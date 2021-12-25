@@ -1,8 +1,8 @@
-import ln_axios from '@/utils/locnor'
+import lh_axios from '@/utils/lochttp'
 
 //根据id获取当前用户
 export const getUser = (id) => {
-    return ln_axios.request({
+    return lh_axios.request({
         url: '/glt/users/getuser',
         method: 'get',
         params: {

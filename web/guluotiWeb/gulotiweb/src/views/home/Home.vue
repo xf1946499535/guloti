@@ -107,6 +107,7 @@ export default {
           index: "9",
           classicon: "el-icon-s-home",
           title: "车库",
+          path: "/barn",
         },
         {
           index: "10",

@@ -8,7 +8,8 @@
 export default {
   methods: {
     logout() {
-      sessionStorage.setItem("myid", null);
+      //清除会话
+      sessionStorage.removeItem("myid");
       this.$store.commit("setme", null);
       this.$message({
         message: "注销成功",
