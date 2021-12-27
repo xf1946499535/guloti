@@ -2,12 +2,13 @@
   <div class="oldcar_carlist">
     <div class="carlist_box">
       <div class="nothing" v-if="carslist.length == 0">
-        抱歉，看起来您车库空空~~~
+        抱歉，没有二手车出售~~
       </div>
       <div
         class="caritem"
         v-for="(car, index) in carslist"
         :key="index + 'carslist'"
+        @click="routeto('/oldcarbuy', car.barn_id)"
       >
         <div class="car_showimg">
           <el-card shadow="hover">
@@ -28,34 +29,21 @@
 </template>
 
 <script>
-import { sellcar, giveupsell } from "@/api/barn";
 export default {
   props: ["carslist"],
   data() {
     return {
-      //当前选中的出售的车
-      sellcar: null,
-      buycarform: {
-        //支付密码
-        paypassword: "",
-        //定价
-        pricing: "",
-      },
       //验证登录密码
       formLabelWidth: "120px",
       loading: false,
     };
   },
   methods: {
-    tosell(car) {
-      this.sellcar = car;
-      this.dialogFormVisible = true;
-    },
-    routeto(path, data) {
+    routeto(path, barn_id) {
       this.$router.push({
         path: path,
         query: {
-          data: data,
+          barn_id: barn_id,
         },
       });
     },

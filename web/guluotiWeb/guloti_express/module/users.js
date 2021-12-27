@@ -32,12 +32,23 @@ const modusers = {
     },
     //用户扣费
     /*
-    money:需要扣的钱
+    money:交易额
     userid:用户id
      */
     async deduct(money, userid) {
+        console.log(money);
+        console.log(userid);
         var userres = await sqlQuery(`select * from user where id=${userid}`)
         sqlQuery(`update user set balance=${userres[0].balance-money} where id=${userid}`)
+    },
+    //用户到账
+    /*
+    money:交易额
+    userid:用户id
+     */
+    async addduct(money, userid) {
+        var userres = await sqlQuery(`select * from user where id=${userid}`)
+        sqlQuery(`update user set balance=${userres[0].balance+money} where id=${userid}`)
     }
 }
 

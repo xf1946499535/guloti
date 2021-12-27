@@ -51,7 +51,6 @@ export default {
 .barn {
   width: 100%;
   height: 800px;
-  background: rgb(255, 255, 255);
   .carlist {
     width: 100%;
   }
