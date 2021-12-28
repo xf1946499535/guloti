@@ -83,6 +83,7 @@ export default {
           index: "4",
           classicon: "el-icon-s-help",
           title: "车友圈",
+          path: "/club",
         },
         {
           index: "5",

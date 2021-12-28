@@ -51,6 +51,21 @@ const routes = [{
         name: 'oldcarbuy',
         component: () => import( /* webpackChunkName: "about" */ '../views/oldcar/oldcarbuy.vue'),
       },
+      {
+        path: '/club',
+        name: 'club',
+        component: () => import( /* webpackChunkName: "about" */ '../views/club/club.vue'),
+      },
+      {
+        path: '/forum',
+        name: 'forum',
+        component: () => import( /* webpackChunkName: "about" */ '../views/club/forum.vue'),
+      },
+      {
+        path: '/invitation',
+        name: 'invitation',
+        component: () => import( /* webpackChunkName: "about" */ '../views/club/invitation.vue'),
+      },
     ]
   },
   {
