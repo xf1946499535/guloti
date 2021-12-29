@@ -6,7 +6,7 @@
         class="clubitem"
         v-for="(club, index) in clublist"
         :key="index + 'clublist'"
-        @click="routeto('/carbuy', club.club_id)"
+        @click="routeto('/invitation', club.club_id, club.brand_name)"
       >
         <div class="brand_logo">
           <el-card shadow="hover">
@@ -36,11 +36,12 @@ export default {
         this.clublist = res.data.data;
       });
     },
-    routeto(path, data) {
+    routeto(path, club_id, club_name) {
       this.$router.push({
         path: path,
         query: {
-          data: data,
+          club_id: club_id,
+          club_name: club_name,
         },
       });
     },
