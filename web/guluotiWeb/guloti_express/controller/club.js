@@ -28,7 +28,9 @@ const club = {
     */
     async getinvitationlist(req, res, next) {
         try {
-            var sqlres = await sqlQuery(`select invitation.id as invitation_id,invitation.clubid,invitation.userid,invitation.brief_context,invitation.time,user.name,user.headimg from invitation left join user on invitation.userid=user.id where invitation.clubid=${req.query.club_id}`)
+            var str1 = `select invitation.id as invitation_id,invitation.clubid,invitation.userid,invitation.brief_context,invitation.time,user.name,user.headimg from invitation left join user on invitation.userid=user.id where invitation.clubid=${req.query.club_id} order by invitation.id desc`
+            var str2 = `select invitation.id as invitation_id,invitation.*,user.name,user.headimg from invitation left join user on invitation.userid=user.id where invitation.clubid=${req.query.club_id} order by invitation.id desc`
+            var sqlres = await sqlQuery(str2)
             return res.json({
                 code: 20000,
                 message: "查询成功",

@@ -36,30 +36,60 @@
     <div class="invitation_title">
       <span>{{ $route.query.club_name }}车友会</span>
     </div>
-    <div class="invitation_list">
-      <div class="invitation_list_title">
-        <div class="invitation_list_titleitem titleleft">大家都在聊...</div>
-        <div class="invitation_list_titleitem">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            @click="dialogFormVisible = true"
-            >发布</el-button
+    <div class="invitation_box">
+      <div class="invitation_list">
+        <div class="invitation_list_title">
+          <div class="invitation_list_titleitem titleleft">大家都在聊...</div>
+          <div class="invitation_list_titleitem">
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              @click="dialogFormVisible = true"
+              >发布</el-button
+            >
+          </div>
+        </div>
+        <div
+          class="invitationitem"
+          v-for="(invitation, index) in invitations"
+          :key="index + 'invitation'"
+        >
+          <div class="invitationitem_up">
+            <div class="user_headimg">
+              <img :src="invitation.headimg" alt="" />
+            </div>
+            <div class="user_name">{{ invitation.name }}</div>
+          </div>
+          <div class="invitationitem_down">
+            {{ invitation.brief_context }}
+            <span
+              @click="showdetailcontext(index)"
+              v-show="!invitations_detail[index]"
+              >...查看全文</span
+            >
+          </div>
+          <div
+            class="invitationitem_content"
+            v-show="invitations_detail[index]"
           >
+            <span v-html="invitation.detail_context"></span>
+          </div>
+          <div class="invitationitem_foot">
+            <el-link
+              >查看评论<i class="el-icon-view el-icon--right"></i
+            ></el-link>
+          </div>
         </div>
       </div>
-      <div
-        class="invitationitem"
-        v-for="(invitation, index) in invitations"
-        :key="index + 'invitation'"
-      >
-        <div class="invitationitem_up">
-          <div class="user_headimg">
-            <img :src="invitation.headimg" alt="" />
-          </div>
-          <div class="user_name">{{ invitation.name }}</div>
+      <div class="invitation_aside">
+        <img
+          src="http://47.108.230.246:8080//guloti/GulotiResource/club/invitation/invitation_aside_title.png"
+          alt=""
+        />
+        <div class="invitation_ask">
+          <div class="invitation_ask_title">问答</div>
+          <div class="invitation_ask_list"></div>
         </div>
-        <div class="invitationitem_down">{{ invitation.brief_context }}</div>
       </div>
     </div>
   </div>
@@ -74,7 +104,11 @@ export default {
   data() {
     return {
       loading: false,
+      //帖子列表
       invitations: [],
+      //表示帖子列表是否点击了查看全文
+      invitations_detail: [],
+
       dialogTableVisible: false,
       dialogFormVisible: false,
       formLabelWidth: "120px",
@@ -96,6 +130,9 @@ export default {
     init() {
       getinvitationlist(this.$route.query.club_id).then((res) => {
         this.invitations = res.data.data;
+        this.invitations_detail = this.invitations.map((val) => {
+          return false;
+        });
       });
     },
     createinvitation() {
@@ -109,6 +146,9 @@ export default {
         (res) => {
           getinvitationlist(this.$route.query.club_id).then((res) => {
             this.invitations = res.data.data;
+            this.invitations_detail = this.invitations.map((val) => {
+              return false;
+            });
           });
           this.$message({
             message: "发布成功",
@@ -127,6 +167,11 @@ export default {
         }
       );
     },
+
+    showdetailcontext(index) {
+      this.$set(this.invitations_detail, index, true);
+    },
+
     // 准备富文本编辑器
     onEditorReady(editor) {},
     // 富文本编辑器 失去焦点事件
@@ -142,6 +187,12 @@ export default {
 <style lang="scss">
 .invitation {
   width: 100%;
+  .invitation_box {
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+  }
+
   .invitation_title {
     padding: 0px 20px;
     width: 100%;
@@ -154,7 +205,7 @@ export default {
     }
   }
   .invitation_list {
-    width: 100%;
+    width: 70%;
     .invitation_list_title {
       height: 3rem;
       width: 100%;
@@ -171,7 +222,7 @@ export default {
     .invitationitem {
       width: 100%;
       margin-top: 10px;
-      padding: 0 10px;
+      padding: 10px 10px;
       background-color: #fff;
       .invitationitem_up {
         width: 100%;
@@ -201,8 +252,31 @@ export default {
         font-size: 1rem;
         line-height: 5rem;
         padding: 0 10px;
-        cursor: pointer;
+        span {
+          cursor: pointer;
+          color: rgb(45, 100, 218);
+        }
       }
+      .invitationitem_content {
+        width: 100%;
+        font-size: 1rem;
+        line-height: 3rem;
+        padding: 0 10px;
+        margin: 10px 0;
+      }
+      .invitationitem_foot {
+        width: 100%;
+        display: flex;
+        padding: 0 3rem;
+        justify-content: flex-end;
+      }
+    }
+  }
+  .invitation_aside {
+    width: 30%;
+    padding: 0px 10px;
+    img {
+      width: 100%;
     }
   }
 }
