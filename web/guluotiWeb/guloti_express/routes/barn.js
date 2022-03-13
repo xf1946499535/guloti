@@ -3,9 +3,6 @@ const {
 } = require('express');
 var express = require('express');
 var router = express.Router();
-var sqlQuery = require('../module/lcMysql')
-var sqltool = require('../module/sqltool');
-
 var barn = require('../controller/barn')
 
 /*获取用户车库车辆列表*/

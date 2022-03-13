@@ -1,5 +1,30 @@
 <template>
   <div class="invitation" v-loading="loading">
+    <el-drawer
+      :title="nowinvitation.invitation.brief_context"
+      :visible.sync="drawer"
+      direction="rtl"
+      :before-close="handleClose"
+      v-loading="drawerloading"
+    >
+      <el-input
+        type="textarea"
+        :rows="4"
+        resize="none"
+        placeholder="添加我的评论"
+        v-model="nowinvitation.newcomment"
+      >
+      </el-input>
+      <el-button type="primary" @click="addcomments">发布评论</el-button>
+      <el-card
+        class="box-card"
+        v-for="(comment, index) in nowinvitation.commentlist"
+        :key="'comment' + index"
+      >
+        <div>{{ comment.username }}</div>
+        <div v-html="comment.comment_content"></div>
+      </el-card>
+    </el-drawer>
     <el-dialog
       title="发布新帖"
       :visible.sync="dialogFormVisible"
@@ -75,8 +100,8 @@
             <span v-html="invitation.detail_context"></span>
           </div>
           <div class="invitationitem_foot">
-            <el-link
-              >查看评论<i class="el-icon-view el-icon--right"></i
+            <el-link @click="commentshow(invitation)"
+              >添加/查看评论<i class="el-icon-view el-icon--right"></i
             ></el-link>
           </div>
         </div>
@@ -97,19 +122,20 @@
 
 <script>
 import { getinvitationlist, addinvitation } from "@/api/club";
+import { getcomments, addcomment } from "@/api/comment";
 export default {
   created() {
     this.init();
   },
   data() {
     return {
+      drawer: false,
       loading: false,
+      drawerloading: false,
       //帖子列表
       invitations: [],
       //表示帖子列表是否点击了查看全文
       invitations_detail: [],
-
-      dialogTableVisible: false,
       dialogFormVisible: false,
       formLabelWidth: "120px",
       editorOption: {
@@ -124,9 +150,18 @@ export default {
         brief_context: "",
         detail_context: "",
       },
+      //当前访问的帖子以及相关评论
+      nowinvitation: {
+        invitation: {},
+        newcomment: "",
+        commentlist: [],
+      },
     };
   },
   methods: {
+    handleClose(done) {
+      done();
+    },
     init() {
       getinvitationlist(this.$route.query.club_id).then((res) => {
         this.invitations = res.data.data;
@@ -170,6 +205,45 @@ export default {
 
     showdetailcontext(index) {
       this.$set(this.invitations_detail, index, true);
+    },
+
+    commentshow(invitation) {
+      let data = {
+        comment_type: `invitation`,
+        from_id: invitation.id,
+        reqnum: 3,
+        pagenum: 0,
+      };
+      this.drawer = true;
+      this.drawerloading = true;
+      getcomments(data).then((res) => {
+        this.nowinvitation.invitation = invitation;
+        this.nowinvitation.commentlist = res.data.data.comments;
+        this.drawerloading = false;
+      });
+    },
+    addcomments() {
+      let data = {
+        comment_type: "invitation",
+        from_id: this.nowinvitation.invitation.invitation_id,
+        userid: sessionStorage.getItem("myid"),
+        comment_content: this.nowinvitation.newcomment,
+      };
+      addcomment(data)
+        .then((res) => {
+          this.commentshow(this.nowinvitation.invitation);
+          this.$message({
+            message: res.data.message,
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          this.$notify.error({
+            title: "发布失败",
+            message: err.message,
+          });
+        });
+      this.nowinvitation.newcomment = "";
     },
 
     // 准备富文本编辑器
@@ -278,6 +352,9 @@ export default {
     img {
       width: 100%;
     }
+  }
+  .box-card {
+    width: 100%;
   }
 }
 </style>

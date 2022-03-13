@@ -44,5 +44,13 @@ router.post('/buycar', async function (req, res, next) {
     }
 });
 
+/*搜索汽车 */
+router.get('/searchcar', async function (req, res, next) {
+    try {
+        cars.searchcar(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
 
 module.exports = router;

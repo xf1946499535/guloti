@@ -5,7 +5,10 @@ var express = require('express');
 var router = express.Router();
 var sqlQuery = require('../module/lcMysql')
 var sqltool = require('../module/sqltool');
-var modusers = require('../module/users')
+var modusers = require('../module/users');
+const {
+    search
+} = require('../routes/club');
 
 const cars = {
     //根据首字母获取品牌列表
@@ -129,6 +132,28 @@ const cars = {
                 }
             })
             //余额验证
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    //搜索查询汽车
+    /*
+        req.query.searchstr 用户输入的查询字符
+        req.query.reqnum 需要返回的最大值
+     */
+    async searchcar(req, res, next) {
+        try {
+            let sqlstr = `select * from car`
+            let term = ` where car_name like '%${req.query.searchstr}%' limit ${req.query.reqnum}`
+            let sqlres = await sqlQuery(sqlstr + term)
+            return res.json({
+                code: 20000,
+                message: "查询成功",
+                data: {
+                    carlist: sqlres
+                }
+            })
         } catch (error) {
             next(error)
         }

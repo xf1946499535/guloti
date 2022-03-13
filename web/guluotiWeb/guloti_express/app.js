@@ -11,7 +11,7 @@ var carsRouter = require('./routes/cars');
 var barnRouter = require('./routes/barn');
 var oldcarRouter = require('./routes/oldcar');
 var clubRouter = require('./routes/club');
-
+var commentsRouter = require('./routes/comments');
 
 
 
@@ -47,7 +47,7 @@ app.use('/glt/cars', carsRouter);
 app.use('/glt/barn', barnRouter);
 app.use('/glt/oldcar', oldcarRouter);
 app.use('/glt/club', clubRouter);
-
+app.use('/glt/comments', commentsRouter);
 
 
 

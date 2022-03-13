@@ -37,11 +37,22 @@ export const getcarinfo = (id) => {
 
 //获取完成汽车购买
 export const buycar = (buycarform) => {
-
     //此接口仅仅用来测试了登陆拦截，暂未开发后台相应接口
     return lh_axios.request({
         url: '/glt/cars/buycar',
         method: 'post',
         data: buycarform
+    })
+}
+
+//模糊查询获取汽车列表信息
+export const searchcar = (data) => {
+    return lh_axios.request({
+        url: '/glt/cars/searchcar',
+        method: 'get',
+        data: {
+            searchstr: data.searchstr,
+            reqnum: data.reqnum
+        }
     })
 }

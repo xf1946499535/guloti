@@ -4,7 +4,6 @@ const {
 var express = require('express');
 var router = express.Router();
 var sqlQuery = require('../module/lcMysql')
-var sqltool = require('../module/sqltool');
 /* GET users listing. */
 /*资讯列表查询*/
 router.get('/carnewslist', async function (req, res, next) {
