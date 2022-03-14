@@ -46,13 +46,13 @@ export const buycar = (buycarform) => {
 }
 
 //模糊查询获取汽车列表信息
-export const searchcar = (data) => {
+export const searchcar = (params) => {
     return lh_axios.request({
         url: '/glt/cars/searchcar',
         method: 'get',
-        data: {
-            searchstr: data.searchstr,
-            reqnum: data.reqnum
+        params: {
+            searchstr: params.searchstr,
+            reqnum: params.reqnum
         }
     })
 }

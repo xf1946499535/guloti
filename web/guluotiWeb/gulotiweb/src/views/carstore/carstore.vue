@@ -70,8 +70,14 @@
     </div>
 
     <div class="screenset">
-      <div class="screenset_left">
+      <div class="screenset_left searchbox">
         <!-- 此处留作条件筛选标签行 -->
+        <input
+          type="text"
+          placeholder="请输入汽车名字"
+          v-model="searchcontent"
+          @input="getcarslike"
+        />
       </div>
       <div class="screenset_right">
         <el-button size="small" type="primary" round @click="resetscreen"
@@ -90,7 +96,8 @@
 </template>
 
 <script>
-import { getbrandlist, getcarslist } from "@/api/cars";
+import { debounce } from "@/utils/tools";
+import { getbrandlist, getcarslist, searchcar } from "@/api/cars";
 import carswindow from "./components/carswindow.vue";
 export default {
   components: {
@@ -163,9 +170,27 @@ export default {
       myscreen: ["不限", -10000, 10000, "不限"],
       //查询到的车辆数组
       cars: [],
+      searchcontent: "",
     };
   },
   methods: {
+    //模糊查询获取车辆列表
+    getcarslike: debounce(function () {
+      let data = {
+        searchstr: this.searchcontent,
+        reqnum: 5,
+      };
+      this.searchcontent = this.searchcontent.trim();
+      if (this.searchcontent == "") {
+        getcarslist(this.myscreen).then((res) => {
+          this.cars = res.data.data;
+        });
+      } else {
+        searchcar(data).then((res) => {
+          this.cars = res.data.data.carlist;
+        });
+      }
+    }, 1000),
     /*
     改变筛选条件
     当前只有改变车型使用到了此函数
@@ -231,6 +256,7 @@ export default {
       this.screenlist.forEach((item) => {
         item.choosed = "不限";
       });
+      this.searchcontent = "";
       this.changebrandintial(this.screenlist[0].choosed);
       getcarslist(this.myscreen).then((res) => {
         this.cars = res.data.data;
@@ -317,10 +343,22 @@ export default {
     display: flex;
     justify-content: space-between;
     .screenset_left {
-      width: 50%;
+      width: 20%;
       display: flex;
+
       .screentag {
         margin-right: 10px;
+      }
+    }
+    .searchbox {
+      display: flex;
+      input {
+        width: 85%;
+        height: 40px;
+        line-height: 40px;
+        border: 2px solid rgb(64, 158, 255);
+        outline-color: rgb(64, 158, 255);
+        padding-left: 5px;
       }
     }
     .screenset_right {

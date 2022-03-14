@@ -9,10 +9,7 @@
               alt=""
             />
           </div>
-          <div class="h_item searchbox">
-            <input type="text" placeholder="大众" />
-            <div class="searchbtn">搜索</div>
-          </div>
+          <div class="h_item searchbox"></div>
           <div class="h_item welcome" v-if="$store.getters.getme">
             {{ $store.getters.getme.name }},欢迎你!
           </div>
@@ -60,6 +57,7 @@
 export default {
   data() {
     return {
+      loading: false,
       asidelist: [
         {
           index: "1",
@@ -124,10 +122,15 @@ export default {
         },
       ],
       //搜索内容
-      serachcontent: "",
+      searchcontent: "",
+      searchres: [],
     };
   },
   methods: {
+    //input框选项的选择
+    handleSelect(item) {
+      console.log(item);
+    },
     handleCommand(command) {
       this.$message("click on item " + command);
     },
