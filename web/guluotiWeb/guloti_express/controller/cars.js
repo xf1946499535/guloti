@@ -32,8 +32,13 @@ const cars = {
         /*
         req.query.myscreen
           0：品牌
-          1：价格
-          2:级别
+          1：价格下限
+          2:价格上限
+          3:级别
+        req.query.searchstr 用户输入的查询字符
+        req.query.reqnum 需要返回的记录最大请求条数
+        req.query.pagenum 需要返回的记录起点位置
+
         */
         try {
             var str = `select * from car where 1=1`
@@ -47,6 +52,10 @@ const cars = {
             if (req.query.myscreen[3] != -1) {
                 term += ` and car_type = '${req.query.myscreen[3]}'`
             }
+            if (req.query.searchstr != '') {
+                term += ` and car_name like '%${req.query.searchstr}%'`
+            }
+            term += ` limit ${req.query.pagenum},${req.query.reqnum}`
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
                 code: 20000,
@@ -137,10 +146,10 @@ const cars = {
         }
     },
 
-    //搜索查询汽车
+    //根据名字模糊搜索查询汽车
     /*
         req.query.searchstr 用户输入的查询字符
-        req.query.reqnum 需要返回的最大值
+        req.query.reqnum 需要返回的最大值数量
      */
     async searchcar(req, res, next) {
         try {

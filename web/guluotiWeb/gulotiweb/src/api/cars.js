@@ -11,7 +11,13 @@ export const getbrandlist = (intial) => {
     })
 }
 //筛选数组获取汽车列表
-export const getcarslist = (myscreen) => {
+/*
+myscreen:多条件筛选数组,0:品牌 1/2：价格下限上限 3:车型
+searchstr:默认为空，用于车名模糊查询
+reqnum:数据条数，默认16
+pagenum:数据起点，默认0
+ */
+export const getcarslist = (myscreen, searchstr = '', reqnum = 16, pagenum = 0) => {
     var screen = [];
     myscreen.forEach((item, index) => {
         screen[index] = item == "不限" ? -1 : item;
@@ -20,7 +26,10 @@ export const getcarslist = (myscreen) => {
         url: '/glt/cars/getcarslist',
         method: 'get',
         params: {
-            myscreen: screen
+            myscreen: screen,
+            searchstr: searchstr,
+            reqnum: reqnum,
+            pagenum: pagenum
         }
     })
 }

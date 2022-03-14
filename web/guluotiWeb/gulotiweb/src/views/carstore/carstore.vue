@@ -166,6 +166,7 @@ export default {
       1：价格下限
       2:价格上限
       3:级别
+      4:车名模糊查询字符串
        */
       myscreen: ["不限", -10000, 10000, "不限"],
       //查询到的车辆数组
@@ -176,21 +177,12 @@ export default {
   methods: {
     //模糊查询获取车辆列表
     getcarslike: debounce(function () {
-      let data = {
-        searchstr: this.searchcontent,
-        reqnum: 5,
-      };
       this.searchcontent = this.searchcontent.trim();
-      if (this.searchcontent == "") {
-        getcarslist(this.myscreen).then((res) => {
-          this.cars = res.data.data;
-        });
-      } else {
-        searchcar(data).then((res) => {
-          this.cars = res.data.data.carlist;
-        });
-      }
-    }, 1000),
+
+      getcarslist(this.myscreen, this.searchcontent).then((res) => {
+        this.cars = res.data.data;
+      });
+    }, 500),
     /*
     改变筛选条件
     当前只有改变车型使用到了此函数
@@ -200,7 +192,7 @@ export default {
       this.loading = true;
       this.screenlist[2].choosed = content;
       this.myscreen[3] = content;
-      getcarslist(this.myscreen).then((res) => {
+      getcarslist(this.myscreen, this.searchcontent).then((res) => {
         this.cars = res.data.data;
         this.loading = false;
       });
@@ -215,7 +207,7 @@ export default {
       this.screenlist[1].choosed = high == 10000 ? "不限" : high;
       this.screenlist[1].choosed =
         high == 10001 ? -500 : this.screenlist[1].choosed;
-      getcarslist(this.myscreen).then((res) => {
+      getcarslist(this.myscreen, this.searchcontent).then((res) => {
         this.cars = res.data.data;
         this.loading = false;
       });
@@ -241,7 +233,7 @@ export default {
     changebrand(brand) {
       this.loading = true;
       this.$set(this.myscreen, 0, brand.brand_name);
-      getcarslist(this.myscreen).then((res) => {
+      getcarslist(this.myscreen, this.searchcontent).then((res) => {
         this.cars = res.data.data;
         this.loading = false;
       });
@@ -258,7 +250,7 @@ export default {
       });
       this.searchcontent = "";
       this.changebrandintial(this.screenlist[0].choosed);
-      getcarslist(this.myscreen).then((res) => {
+      getcarslist(this.myscreen, this.searchcontent).then((res) => {
         this.cars = res.data.data;
         this.loading = false;
       });
