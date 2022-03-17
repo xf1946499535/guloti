@@ -97,7 +97,7 @@
 
 <script>
 import { debounce } from "@/utils/tools";
-import { getbrandlist, getcarslist, searchcar } from "@/api/cars";
+import { getbrandlist, getcarslist } from "@/api/cars";
 import carswindow from "./components/carswindow.vue";
 export default {
   components: {
