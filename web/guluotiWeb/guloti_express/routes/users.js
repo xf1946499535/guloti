@@ -63,15 +63,22 @@ router.get('/getuser', async function (req, res, next) {
 var multer = require('multer');
 
 var upload = multer({
-  dest: 'upload_tmp/'
+  dest: '/www/server/tomcat/webapps/ROOT/guloti/GulotiResource/upload_tmp'
 });
 /*修改头像 */
-router.post('/editUserheader', upload.any(), async function (req, res, next) {
+router.post('/editUserheader', async function (req, res, next) {
   try {
     users.editUserheader(req, res, next)
   } catch (error) {
     next(error)
   }
 });
-
+/*上传文件 */
+router.post('/uploadfile', upload.any(), async function (req, res, next) {
+  try {
+    users.uploadfile(req, res, next)
+  } catch (error) {
+    next(error)
+  }
+});
 module.exports = router;

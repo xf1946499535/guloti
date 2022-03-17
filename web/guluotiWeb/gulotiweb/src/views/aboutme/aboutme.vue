@@ -7,7 +7,8 @@
       <el-upload
         class="avatar-uploader"
         title="修改头像"
-        action="http://localhost:8200/loc/glt/users/editUserheader"
+        action="http://localhost:8200/api/glt/users/uploadfile"
+        :data="data"
         :show-file-list="false"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
@@ -27,6 +28,7 @@ export default {
   data() {
     return {
       imageUrl: "",
+      data: { path: `headimg/${this.$store.getters.getme.id}.jpg` },
     };
   },
   methods: {

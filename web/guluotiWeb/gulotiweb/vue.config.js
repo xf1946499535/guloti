@@ -9,7 +9,7 @@ module.exports = {
         pathRewrite: {
           '^/api': ''
         },
-        target: "http://139.155.247.54:3201",
+        target: "http://47.108.230.246:3201",
         ws: true, // 是否开启 websokets
         secure: false, // 是否安全，https 为 true，http 为 false
         changeOrigin: true,

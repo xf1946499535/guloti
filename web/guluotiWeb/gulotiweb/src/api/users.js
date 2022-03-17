@@ -12,14 +12,15 @@ export const getUser = (id) => {
 }
 
 //上传头像
-//根据id获取当前用户
-export const editUserheader = (file) => {
+//根据id获取当前用户，没有用到
+export const editUserheader = (file, data) => {
     return lh_axios.request({
-        url: '/glt/users/editUserheader',
+        url: '/glt/users/uploadfile',
         method: 'post',
         headers: {
             'Content-Type': 'multipart/form-data'
         },
-        file: file
+        file: file,
+        data: data
     })
 }

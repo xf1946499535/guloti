@@ -1,11 +1,13 @@
+import ln_axios from '@/utils/locnor'
+import lh_axios from '@/utils/lochttp'
 //首页汽车资讯api
 /*
     nums为获取数量，默认为10
  */
 import axios from 'axios'
 export const getnewslist = (nums = 10) => {
-    return axios.request({
-        url: 'http://localhost:3201/glt/news/carnewslist',
+    return ln_axios.request({
+        url: '/glt/news/carnewslist',
         method: 'get',
         params: {
             nums: nums
@@ -14,8 +16,8 @@ export const getnewslist = (nums = 10) => {
 }
 
 export const getnews = (id) => {
-    return axios.request({
-        url: 'http://localhost:3201/glt/news/carnews',
+    return ln_axios.request({
+        url: '/glt/news/carnews',
         method: 'get',
         params: {
             id: id
