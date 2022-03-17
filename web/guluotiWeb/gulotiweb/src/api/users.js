@@ -11,16 +11,15 @@ export const getUser = (id) => {
     })
 }
 
-//上传头像
-//根据id获取当前用户，没有用到
-export const editUserheader = (file, data) => {
+//修改用户信息
+//usernewinfo中，需保证键与数据库一致,数量随意
+export const editUsermessage = (data) => {
     return lh_axios.request({
-        url: '/glt/users/uploadfile',
+        url: '/glt/users/editUsermessage',
         method: 'post',
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-        file: file,
-        data: data
+        data: {
+            userid: data.userid,
+            usernewinfo: data.usernewinfo
+        }
     })
 }

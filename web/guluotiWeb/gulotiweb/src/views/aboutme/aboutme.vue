@@ -2,7 +2,7 @@
   <div class="aboutme">
     <div class="aboutme_header">
       <div class="myheaderimg">
-        <img :src="$store.getters.getme.headimg" alt="" srcset="" />
+        <img :src="nowheadimg" alt="" srcset="" />
       </div>
       <el-upload
         class="avatar-uploader"
@@ -22,13 +22,14 @@
 </template>
 
 <script>
-import { editUserheader } from "@/api/users";
+import { editUsermessage, getUser } from "@/api/users";
 
 export default {
   data() {
     return {
       imageUrl: "",
       data: { path: `headimg/${this.$store.getters.getme.id}.jpg` },
+      nowheadimg: this.$store.getters.getme.headimg,
     };
   },
   methods: {
@@ -44,8 +45,20 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      console.log(this.imageUrl);
       console.log(res);
+      let data = {
+        userid: this.$store.getters.getme.id,
+        usernewinfo: {
+          headimg: res.url,
+        },
+      };
+      editUsermessage(data).then((res1) => {
+        getUser(sessionStorage.getItem("myid")).then((res2) => {
+          this.$store.commit("setme", res2.data.data[0]);
+          this.nowheadimg = URL.createObjectURL(file.raw);
+          this.imageUrl = "";
+        });
+      });
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";

@@ -65,10 +65,10 @@ var multer = require('multer');
 var upload = multer({
   dest: '/www/server/tomcat/webapps/ROOT/guloti/GulotiResource/upload_tmp'
 });
-/*修改头像 */
-router.post('/editUserheader', async function (req, res, next) {
+/*修改用户信息 */
+router.post('/editUsermessage', async function (req, res, next) {
   try {
-    users.editUserheader(req, res, next)
+    users.editUsermessage(req, res, next)
   } catch (error) {
     next(error)
   }

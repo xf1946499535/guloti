@@ -28,28 +28,27 @@ const users = {
         }
     },
 
-    //修改头像
-    async editUserheader(req, res, next) {
+    //修改信息
+    /*
+    req.body.usernewinfo 新用户信息对象，保持键与数据库字段名一致即可，可遍历自动更新
+    req.body.userid
+     */
+    async editUsermessage(req, res, next) {
         try {
-            console.log(req.files[0]); // 上传的文件信息
-            var des_file = "./upload/" + req.files[0].originalname;
-            fs.readFile(req.files[0].path, function (err, data) {
-                fs.writeFile(des_file, data, function (err) {
-                    if (err) {
-                        console.log(err);
-                        fs.unlinkSync(req.files[0].path);
-                    } else {
-                        response = {
-                            message: 'File uploaded successfully',
-                            filename: req.files[0].originalname
-                        };
-                        console.log(response);
-                        fs.unlinkSync(req.files[0].path);
-                        res.end(JSON.stringify(response));
-                    }
-                });
-            });
+            var sqlstr = `update user set `
+            for (let key in req.body.usernewinfo) {
+                sqlstr += `${key}='${req.body.usernewinfo[key]}',`
+            }
+            sqlstr = sqlstr.substring(0, sqlstr.length - 1);
+            var term = ` where id=${req.body.userid}`
+            var sqlres = await sqlQuery(sqlstr + term)
+            res.json({
+                message: '修改成功',
+                code: 20000,
+                data: sqlres
+            })
         } catch (error) {
+            console.log(error);
             next(error)
         }
     },
