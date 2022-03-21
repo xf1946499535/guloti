@@ -5,9 +5,17 @@
 </template>
 <script>
 import { getUser } from "@/api/users";
+import socket from "@/utils/socket";
+
 export default {
   created() {
     this.setLoguser();
+    socket.on("connect", function () {
+      console.log("与服务器建立起socket连接");
+    });
+  },
+  beforeDestroy() {
+    socket.emit("disconnect");
   },
   methods: {
     setLoguser() {
@@ -15,6 +23,7 @@ export default {
         getUser(sessionStorage.getItem("myid")).then((res) => {
           this.$store.commit("setme", res.data.data);
           console.log(this.$store.getters.getme);
+          socket.emit("setsocket", sessionStorage.getItem("myid"));
         });
       }
     },

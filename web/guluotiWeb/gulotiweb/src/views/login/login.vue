@@ -55,6 +55,7 @@
 import { login } from "@/api/loginAPI";
 import { getUser } from "@/api/users";
 import { setssoLocal } from "@/utils/sso";
+import socket from "@/utils/socket";
 
 export default {
   data() {
@@ -106,15 +107,12 @@ export default {
                   "myid",
                   JSON.stringify(res.data.data.userid)
                 );
+                socket.emit("setsocket", sessionStorage.getItem("myid"));
                 getUser(sessionStorage.getItem("myid")).then((res) => {
                   this.$store.commit("setme", res.data.data);
                 });
                 this.$router.go(-1);
               }
-              // localStorage.setItem("token", res.data.token);
-              // setssoLocal(res.data.token);
-              // sessionStorage.setItem("me", JSON.stringify(res.data.data));
-              // this.$router.push("/");
             })
             .catch((err) => {
               this.$notify.error({
