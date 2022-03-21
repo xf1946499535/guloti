@@ -15,7 +15,7 @@ export default {
     });
   },
   beforeDestroy() {
-    socket.emit("disconnect");
+    socket.emit("logout");
   },
   methods: {
     setLoguser() {

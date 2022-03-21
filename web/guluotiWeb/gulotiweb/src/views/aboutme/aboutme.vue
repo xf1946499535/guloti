@@ -46,6 +46,7 @@
 <script>
 import { editUsermessage, getUser } from "@/api/users";
 import { getbrandlist } from "@/api/cars";
+import socket from "@/utils/socket";
 
 export default {
   created() {
@@ -80,6 +81,7 @@ export default {
       //清除会话
       sessionStorage.removeItem("myid");
       this.$store.commit("setme", null);
+      socket.emit("logout");
       this.$message({
         message: "注销成功",
         type: "success",
