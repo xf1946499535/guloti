@@ -13,7 +13,7 @@ export default {
     setLoguser() {
       if (sessionStorage.getItem("myid")) {
         getUser(sessionStorage.getItem("myid")).then((res) => {
-          this.$store.commit("setme", res.data.data[0]);
+          this.$store.commit("setme", res.data.data);
           console.log(this.$store.getters.getme);
         });
       }

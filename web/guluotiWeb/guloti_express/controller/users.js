@@ -1,10 +1,6 @@
-const {
-    json
-} = require('express');
-var express = require('express');
-var router = express.Router();
 var sqlQuery = require('../module/lcMysql')
 var sqltool = require('../module/sqltool');
+var modusers = require('../module/users')
 var fs = require('fs');
 var multer = require('multer');
 var path = require('path');
@@ -21,7 +17,7 @@ const users = {
             res.status(200).json({
                 code: 20000,
                 message: "查询成功",
-                data: sqlres
+                data: sqlres[0]
             })
         } catch (error) {
             next(error)
@@ -32,9 +28,16 @@ const users = {
     /*
     req.body.usernewinfo 新用户信息对象，保持键与数据库字段名一致即可，可遍历自动更新
     req.body.userid
+    req.body.pwdcheck 当修改了密码，则需要把旧密码进行验证
      */
     async editUsermessage(req, res, next) {
         try {
+            if (req.pwdcheck && !modusers.pwdcheck(req.body.userid, req.body.pwdcheck)) {
+                res.json({
+                    code: 20001,
+                    message: '修改失败，密码错误'
+                })
+            }
             var sqlstr = `update user set `
             for (let key in req.body.usernewinfo) {
                 sqlstr += `${key}='${req.body.usernewinfo[key]}',`

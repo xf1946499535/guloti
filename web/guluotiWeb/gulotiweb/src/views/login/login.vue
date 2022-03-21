@@ -107,7 +107,7 @@ export default {
                   JSON.stringify(res.data.data.userid)
                 );
                 getUser(sessionStorage.getItem("myid")).then((res) => {
-                  this.$store.commit("setme", res.data.data[0]);
+                  this.$store.commit("setme", res.data.data);
                 });
                 this.$router.go(-1);
               }

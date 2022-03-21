@@ -1,6 +1,7 @@
 import axios from 'axios'
 import ln_axios from '@/utils/locnor'
 import lh_axios from '@/utils/lochttp'
+//获取品牌列表
 export const getbrandlist = (intial) => {
     return ln_axios.request({
         url: '/glt/cars/getbrandlist',
