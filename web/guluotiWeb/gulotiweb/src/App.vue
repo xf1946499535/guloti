@@ -14,6 +14,7 @@ export default {
     socket.on("connect", function () {
       console.log("与服务器建立起socket连接");
     });
+    //牛的
     socket.on("addnoread", function (res) {
       let nowlength = _this.$store.getters.getnoreadnum;
       _this.$store.commit("setnoreadnum", nowlength + res.affectedRows);
