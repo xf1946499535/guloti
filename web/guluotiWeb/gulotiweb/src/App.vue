@@ -13,7 +13,6 @@ export default {
     this.setLoguser();
     socket.on("connect", function () {
       console.log("与服务器建立起socket连接");
-      //不服
     });
     socket.on("addnoread", function (res) {
       let nowlength = _this.$store.getters.getnoreadnum;
