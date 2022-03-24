@@ -17,15 +17,16 @@
             <div class="login_btn" @click="routeto('/login')">登录</div>
             <div class="register_btn" @click="routeto('/register')">注册</div>
           </div>
-          <div class="h_item">
+          <div class="h_item" v-if="$store.getters.getme">
             <el-badge
-              :value="noreadmsg"
+              :value="$store.getters.getnoreadnum"
               :max="99"
               class="item"
-              :hidden="false"
-              
+              :hidden="$store.getters.getnoreadnum == 0"
             >
-              <el-button size="small" @click="routeto('/chatroom')">回复</el-button>
+              <el-button size="small" @click="routeto('/chatroom')"
+                >回复</el-button
+              >
             </el-badge>
           </div>
         </div></el-header

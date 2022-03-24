@@ -26,14 +26,29 @@
 <script>
 import socket from "@/utils/socket";
 import { getUser } from "@/api/users";
-import { getchatmsglist } from "@/api/chat";
+import { getchatmsglist, cleanmsglist } from "@/api/chat";
 export default {
   created() {
-    this.init();
+    let _this = this;
+    if (this.$route.query.touserid) {
+      this.init();
+    }
     socket.on("getmsg", (res) => {
-      // this.chatlist.push(res);
-      console.log(res);
-      this.$set(this.chatlist, this.chatlist.length, res);
+      if (this.$route.query.touserid) {
+        console.log("我在外面也受到了");
+        _this.$set(_this.chatlist, _this.chatlist.length, res);
+        console.log({
+          from_userid: _this.$route.query.touserid,
+          to_userid: _this.$store.getters.getme.id,
+        });
+        cleanmsglist({
+          from_userid: _this.$route.query.touserid,
+          to_userid: _this.$store.getters.getme.id,
+        }).then((res2) => {
+          var nowlength = _this.$store.getters.getnoreadnum;
+          _this.$store.commit("setnoreadnum", nowlength - res2.data.data);
+        });
+      }
     });
   },
   data() {
@@ -63,6 +78,13 @@ export default {
         this.chatlist = res.data.data;
         this.loading = false;
         this.scrollbottom();
+        cleanmsglist({
+          from_userid: this.$route.query.touserid,
+          to_userid: this.$store.getters.getme.id,
+        }).then((res2) => {
+          var nowlength = this.$store.getters.getnoreadnum;
+          this.$store.commit("setnoreadnum", nowlength - res2.data.data);
+        });
       });
     },
     //发送消息
@@ -84,6 +106,7 @@ export default {
       this.init();
     },
   },
+  beforeDestroy() {},
 };
 </script>
 

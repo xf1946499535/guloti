@@ -27,3 +27,26 @@ export const getchatmsglist = (data) => {
         }
     })
 }
+
+//获取未读信息数量
+export const getnoreadnum = () => {
+    return lh_axios.request({
+        url: '/glt/chat/getnoreadnum',
+        method: 'get',
+        params: {
+            userid: sessionStorage.getItem('myid'),
+        }
+    })
+}
+
+//更改消息读取状态
+export const cleanmsglist = (data) => {
+    return lh_axios.request({
+        url: '/glt/chat/cleanmsglist',
+        method: 'post',
+        data: {
+            from_userid: data.from_userid,
+            to_userid: data.to_userid
+        }
+    })
+}

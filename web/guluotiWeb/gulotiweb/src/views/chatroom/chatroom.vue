@@ -50,7 +50,7 @@ export default {
 <style lang="scss">
 .chatroom {
   width: 100%;
-  height: 600px;
+  height: 700px;
   display: flex;
   overflow-y: hidden;
   overflow-x: hidden;

@@ -1,5 +1,5 @@
 var sqlQuery = require('../module/lcMysql')
-
+let modchat = require('../module/chat')
 const chat = {
     //获取聊天用户连接列表,返回已建立聊天的用户
     /*
@@ -35,6 +35,37 @@ const chat = {
                 code: 20000,
                 message: '请求成功',
                 data: sqlres
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+    //获取未读信息数量
+    /**
+     * req.query.userid 用户id
+     */
+    async getnoreadnum(req, res, next) {
+        try {
+            res.json({
+                code: 20000,
+                message: '请求成功',
+                data: await modchat.unreadnums(req.query.userid)
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+    //更改消息读取状态
+    /*
+    req.body.from_userid 发送方id
+    req.body.to_userid  接收方id
+     */
+    async cleanmsglist(req, res, next) {
+        try {
+            res.json({
+                code: 20000,
+                message: '操作成功',
+                data: await modchat.cleanmsglist(req.body.from_userid, req.body.to_userid)
             })
         } catch (error) {
             next(error)

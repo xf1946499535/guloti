@@ -56,7 +56,7 @@ import { login } from "@/api/loginAPI";
 import { getUser } from "@/api/users";
 import { setssoLocal } from "@/utils/sso";
 import socket from "@/utils/socket";
-
+import { getnoreadnum } from "@/api/chat";
 export default {
   data() {
     var checkAccount = (rule, value, callback) => {
@@ -110,6 +110,9 @@ export default {
                 socket.emit("setsocket", sessionStorage.getItem("myid"));
                 getUser(sessionStorage.getItem("myid")).then((res) => {
                   this.$store.commit("setme", res.data.data);
+                });
+                getnoreadnum().then((res) => {
+                  this.$store.commit("setnoreadnum", res.data.data);
                 });
                 this.$router.go(-1);
               }

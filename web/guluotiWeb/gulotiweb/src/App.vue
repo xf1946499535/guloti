@@ -6,13 +6,23 @@
 <script>
 import { getUser } from "@/api/users";
 import socket from "@/utils/socket";
-
+import { getnoreadnum } from "@/api/chat";
 export default {
   created() {
+    let _this = this;
     this.setLoguser();
     socket.on("connect", function () {
       console.log("与服务器建立起socket连接");
     });
+    socket.on("addnoread", function (res) {
+      let nowlength = _this.$store.getters.getnoreadnum;
+      _this.$store.commit("setnoreadnum", nowlength + res.affectedRows);
+    });
+    if (sessionStorage.getItem("myid")) {
+      getnoreadnum().then((res) => {
+        this.$store.commit("setnoreadnum", res.data.data);
+      });
+    }
   },
   beforeDestroy() {
     socket.emit("logout");
