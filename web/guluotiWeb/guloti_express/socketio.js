@@ -3,6 +3,7 @@ let socketio = {}
 //因为需要用到数据库。所以要引入sql
 let sqlQuery = require('./module/lcMysql')
 let sockuser = require('./socketcontroller/user')
+let sockchat = require('./socketcontroller/chat')
 //拿到www中的io并使用，因为这个函数是在www中被调用的，所以拿的socketio.io中
 //的io是www中的
 function getSocket(server) {
@@ -29,12 +30,9 @@ function getSocket(server) {
         socket.on('disconnect', sockuser.disconnect(socket, 1))
         //监听用户登出事件
         socket.on('logout', sockuser.disconnect(socket, 1))
-
-
-
         //监听前端聊天框发送的消息并保存到数据库和转发
-        socket.on('sendMsg', async function (msg) {
-
+        socket.on('sendmsg', function (data) {
+            sockchat.sendmsg(socket, data)
         })
 
     });

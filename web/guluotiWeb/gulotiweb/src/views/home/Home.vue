@@ -3,7 +3,7 @@
     <el-container>
       <el-header
         ><div class="header">
-          <div class="h_item logo" title="返回首页" @click="routeto('/')">
+          <div class="h_item logo">
             <img
               src="http://47.108.230.246:8080/guloti/GulotiResource/Guloti_Logo.png"
               alt=""
@@ -16,6 +16,17 @@
           <div class="h_item loginbox" v-else>
             <div class="login_btn" @click="routeto('/login')">登录</div>
             <div class="register_btn" @click="routeto('/register')">注册</div>
+          </div>
+          <div class="h_item">
+            <el-badge
+              :value="noreadmsg"
+              :max="99"
+              class="item"
+              :hidden="false"
+              
+            >
+              <el-button size="small" @click="routeto('/chatroom')">回复</el-button>
+            </el-badge>
           </div>
         </div></el-header
       >
@@ -124,6 +135,8 @@ export default {
       //搜索内容
       searchcontent: "",
       searchres: [],
+      //未读的信息数量
+      noreadmsg: 0,
     };
   },
   methods: {
@@ -149,6 +162,7 @@ export default {
 <style lang="scss">
 .home {
   background-color: rgb(247, 248, 252);
+
   .el-dropdown-link {
     cursor: pointer;
     color: #409eff;
@@ -171,6 +185,9 @@ export default {
       width: 33%;
       height: 40px;
       margin: auto 0;
+      .item {
+        margin: 10px auto;
+      }
     }
     .welcome {
       font-size: 1.2rem;
@@ -178,7 +195,6 @@ export default {
       line-height: 40px;
     }
     .logo {
-      cursor: pointer;
       left: 50px;
       img {
         height: 40px;

@@ -66,6 +66,17 @@ const routes = [{
         name: 'invitation',
         component: () => import( /* webpackChunkName: "about" */ '../views/club/invitation.vue'),
       },
+      {
+        path: '/chatroom',
+        name: 'chatroom',
+        redirect: '/chatroom/chatuser',
+        component: () => import( /* webpackChunkName: "about" */ '../views/chatroom/chatroom.vue'),
+        children: [{
+          path: '/chatroom/chatuser',
+          name: '/chatroom/chatuser',
+          component: () => import( /* webpackChunkName: "about" */ '../views/chatroom/component/chatuser.vue'),
+        }]
+      },
     ]
   },
   {
@@ -90,4 +101,5 @@ router.beforeEach((to, from, next) => {
   next()
   window.scrollTo(0, 0)
 })
+
 export default router
