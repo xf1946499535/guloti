@@ -4,8 +4,17 @@
       {{ touser.name }}
     </div>
     <div class="chatbox" ref="chatbox">
-      <div v-for="(item, index) in chatlist" :key="index + 'chatlist'">
-        {{ item }}
+      <div
+        class="chatmsgitem"
+        :class="{
+          msgcontent_me: item.from_userid == $store.getters.getme.id,
+        }"
+        v-for="(item, index) in chatlist"
+        :key="index + 'chatlist'"
+      >
+        <div class="chat_content">
+          {{ item.content }}
+        </div>
       </div>
     </div>
     <div class="inputbox">
@@ -42,10 +51,14 @@ export default {
         cleanmsglist({
           from_userid: _this.$route.query.touserid,
           to_userid: _this.$store.getters.getme.id,
-        }).then((res2) => {
-          var nowlength = _this.$store.getters.getnoreadnum;
-          _this.$store.commit("setnoreadnum", nowlength - res2.data.data);
-        });
+        })
+          .then((res2) => {
+            var nowlength = _this.$store.getters.getnoreadnum;
+            _this.$store.commit("setnoreadnum", nowlength - res2.data.data);
+          })
+          .then(() => {
+            this.scrollbottom();
+          });
       }
     });
   },
@@ -72,18 +85,22 @@ export default {
       getchatmsglist({
         userid: this.$store.getters.getme.id,
         touserid: this.touserid,
-      }).then((res) => {
-        this.chatlist = res.data.data;
-        this.loading = false;
-        this.scrollbottom();
-        cleanmsglist({
-          from_userid: this.$route.query.touserid,
-          to_userid: this.$store.getters.getme.id,
-        }).then((res2) => {
-          var nowlength = this.$store.getters.getnoreadnum;
-          this.$store.commit("setnoreadnum", nowlength - res2.data.data);
+      })
+        .then((res) => {
+          this.chatlist = res.data.data;
+          this.loading = false;
+          this.scrollbottom();
+          cleanmsglist({
+            from_userid: this.$route.query.touserid,
+            to_userid: this.$store.getters.getme.id,
+          }).then((res2) => {
+            var nowlength = this.$store.getters.getnoreadnum;
+            this.$store.commit("setnoreadnum", nowlength - res2.data.data);
+          });
+        })
+        .then(() => {
+          this.scrollbottom();
         });
-      });
     },
     //发送消息
     sendmsg() {
@@ -94,6 +111,10 @@ export default {
       };
       socket.emit("sendmsg", data);
       this.$set(this.chatlist, this.chatlist.length, data);
+      this.myinput = "";
+      this.$nextTick(function () {
+        this.scrollbottom();
+      });
     },
   },
   watch: {
@@ -122,16 +143,37 @@ export default {
   .chatbox {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     flex: 1;
+    padding-bottom: 1rem;
     min-height: 32rem;
     height: 32rem;
     max-height: 32rem;
     overflow-y: scroll;
     overflow-x: hidden;
+    .chatmsgitem {
+      width: 100%;
+      display: flex;
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      // background-color: aqua;
+    }
+    .msgcontent_me {
+      display: flex;
+      flex-direction: row-reverse;
+      text-overflow: wrap;
+    }
+    .chat_content {
+      max-width: 30rem;
+      word-break: break-all;
+      margin: 0 1.5rem;
+      padding: 1rem;
+      background-color: bisque;
+    }
   }
   .chatbox::-webkit-scrollbar {
     display: none;
   }
   .inputbox {
+    margin-top: 2rem;
     width: 100%;
     height: 2rem;
     display: flex;
