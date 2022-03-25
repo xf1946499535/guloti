@@ -4,6 +4,7 @@
       <meta name="referrer" content="never" />
       <source :src="url" type="video/mp4" />
     </video>
+    <!-- <video :src="url" controls="controls"></video> -->
     <div class="news_info">
       <div class="news_info_title">{{ news_msg.news_title }}</div>
       <div class="news_info_time">

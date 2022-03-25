@@ -9,7 +9,7 @@ const chat = {
      */
     async getchatconnectlist(req, res, next) {
         try {
-            var sqlstr = `select id,name,headimg,isonline from user where user.id in(select from_userid from chatlist where to_userid=${req.query.userid}) OR user.id in(select to_userid from chatlist where from_userid=${req.query.userid})  order by user.isonline desc limit ${req.query.reqnum}`
+            var sqlstr = `select user.id as userid,user.name,user.headimg,user.isonline,user.companyid,brand.* from user left join brand on brand.id=user.companyid where user.id in(select from_userid from chatlist where to_userid=${req.query.userid}) OR user.id in(select to_userid from chatlist where from_userid=${req.query.userid})  order by user.isonline desc limit ${req.query.reqnum}`
             let sqlres = await sqlQuery(sqlstr)
             res.json({
                 code: 20000,

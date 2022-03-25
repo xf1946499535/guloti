@@ -34,13 +34,11 @@ export default {
       this.init();
     }
     socket.on("getmsg", (res) => {
-      if (this.$route.query.touserid) {
-        console.log("我在外面也受到了");
+      if (
+        _this.$route.query.touserid &&
+        _this.$route.query.touserid == res.from_userid
+      ) {
         _this.$set(_this.chatlist, _this.chatlist.length, res);
-        console.log({
-          from_userid: _this.$route.query.touserid,
-          to_userid: _this.$store.getters.getme.id,
-        });
         cleanmsglist({
           from_userid: _this.$route.query.touserid,
           to_userid: _this.$store.getters.getme.id,
@@ -103,7 +101,9 @@ export default {
       // console.log(this.$route.query.touserid);
       this.loading = true;
       this.touserid = this.$route.query.touserid;
-      this.init();
+      if (this.$route.query.touserid) {
+        this.init();
+      }
     },
   },
   beforeDestroy() {},

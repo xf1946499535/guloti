@@ -1,7 +1,7 @@
 var chat = require('../controller/chat')
 var express = require('express');
 var router = express.Router();
-
+//获取聊天用户连接列表,返回已建立聊天的用户
 router.get('/getchatconnectlist', async function (req, res, next) {
     try {
         chat.getchatconnectlist(req, res, next)

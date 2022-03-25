@@ -39,7 +39,7 @@ export default {
       this.$router.push({
         path: "/chatroom/chatuser",
         query: {
-          touserid: user.id,
+          touserid: user.userid,
         },
       });
     },

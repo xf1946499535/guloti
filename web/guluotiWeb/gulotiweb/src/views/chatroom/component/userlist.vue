@@ -16,7 +16,11 @@
           <img :src="item.headimg" />
         </div>
         <div class="right">
-          <span class="name">{{ item.name }}</span>
+          <span class="name">{{ item.name }}</span
+          ><br />
+          <span class="company" v-if="item.brand_name">{{
+            item.brand_name + "客服"
+          }}</span>
         </div>
       </div>
     </div>
@@ -128,8 +132,7 @@ a {
     font-weight: 500;
     font-size: 15px;
   }
-  .right .myword {
-    margin-top: 10px;
+  .right .company {
     font-size: 10px;
     color: darkgray;
   }
