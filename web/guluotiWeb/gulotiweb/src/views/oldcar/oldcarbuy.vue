@@ -66,7 +66,7 @@
             {{ car.car_price_low }}-{{ car.car_price_high }}万
           </div>
         </div>
-        <div class="buycarBtn">询问卖家</div>
+        <div class="buycarBtn" @click="ask">询问卖家</div>
         <div class="buycarBtn" @click="buycarbtn()">购买此车</div>
       </div>
       <div class="main_mid">
@@ -90,6 +90,8 @@
 </template>
 
 <script>
+import { addchatconnect } from "@/api/chat";
+import socket from "@/utils/socket";
 import { getcarinfo, buycar } from "@/api/cars";
 import { getoldcar, buyoldcar } from "@/api/oldcar";
 export default {
@@ -159,6 +161,23 @@ export default {
           this.loading = false;
         }
       );
+    },
+    ask() {
+      if (this.car.userid == this.$store.getters.getme.id) {
+        this.$message.error("不能跟自己聊天");
+        return;
+      }
+      socket.emit("sendmsg", {
+        from_userid: this.$store.getters.getme.id,
+        to_userid: this.car.userid,
+        content: "你好",
+      });
+      this.$router.push({
+        path: "/chatroom/chatuser",
+        query: {
+          touserid: this.car.userid,
+        },
+      });
     },
   },
 };

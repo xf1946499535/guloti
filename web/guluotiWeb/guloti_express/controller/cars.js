@@ -161,6 +161,31 @@ const cars = {
         } catch (error) {
             next(error)
         }
+    },
+    //分配在线客服的id
+    /*
+    req.query.brandid 品牌名称
+     */
+    async disservicesock(req, res, next) {
+        try {
+            let sqlstr = `select id from user where companyid=${req.query.brandid} and isonline=1`
+            let sqlres = await sqlQuery(sqlstr)
+            if (sqlres.length == 0) {
+                res.json({
+                    code: 20001,
+                    message: '抱歉，当前无客服在线，请稍后联系',
+                })
+            } else {
+                let serviceid = sqlres[Math.floor(Math.random() * sqlres.length)].id;
+                res.json({
+                    code: 20000,
+                    message: '请求成功',
+                    data: serviceid
+                })
+            }
+        } catch (error) {
+            next(error)
+        }
     }
 }
 module.exports = cars

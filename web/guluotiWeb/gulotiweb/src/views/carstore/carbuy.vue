@@ -65,7 +65,7 @@
             {{ car.car_price_low }}-{{ car.car_price_high }}万
           </div>
         </div>
-        <div class="buycarBtn">询问商家</div>
+        <div class="buycarBtn" @click="ask">询问商家</div>
         <div class="buycarBtn" @click="buycarbtn()">购买此车</div>
       </div>
       <div class="main_mid">
@@ -89,7 +89,10 @@
 </template>
 
 <script>
-import { getcarinfo, buycar } from "@/api/cars";
+import { getcarinfo, buycar, disservicesock } from "@/api/cars";
+import { addchatconnect } from "@/api/chat";
+import socket from "@/utils/socket";
+
 export default {
   created() {
     this.init();
@@ -117,7 +120,6 @@ export default {
         this.car = res.data.data[0];
         this.sliberimg = res.data.data[0].car_exhibition_list.split("$");
         this.loading = false;
-        // console.log(this.car);
       });
     },
     buycarbtn() {
@@ -129,6 +131,32 @@ export default {
       } else {
         this.dialogFormVisible = true;
       }
+    },
+    ask() {
+      let serviceid = 0;
+      disservicesock(this.car.car_brandid).then(
+        (res) => {
+          serviceid = res.data.data;
+          if (serviceid == this.$store.getters.getme) {
+            this.$message("不能和自己通信");
+            return;
+          }
+          socket.emit("sendmsg", {
+            from_userid: this.$store.getters.getme.id,
+            to_userid: serviceid,
+            content: "你好",
+          });
+          this.$router.push({
+            path: "/chatroom/chatuser",
+            query: {
+              touserid: serviceid,
+            },
+          });
+        },
+        (err) => {
+          this.$message.error(err.message);
+        }
+      );
     },
     buycarsubmit() {
       this.loading = true;

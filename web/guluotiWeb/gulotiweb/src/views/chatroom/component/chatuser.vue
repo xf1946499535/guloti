@@ -140,6 +140,7 @@ export default {
     width: 100%;
     height: 2rem;
   }
+
   .chatbox {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     flex: 1;
@@ -175,8 +176,15 @@ export default {
   .inputbox {
     margin-top: 2rem;
     width: 100%;
-    height: 2rem;
     display: flex;
+    .el-button--default {
+      color: #fff;
+      background-color: #1e90ff;
+      border-color: #1e90ff;
+      height: 54px;
+      line-height: 54px;
+      padding: 0 20px;
+    }
   }
 }
 </style>

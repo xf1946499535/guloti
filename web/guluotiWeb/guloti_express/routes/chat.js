@@ -31,4 +31,13 @@ router.post('/cleanmsglist', async function (req, res, next) {
         next(error)
     }
 });
+
+//建立新的聊天
+router.post('/addchatconnect', async function (req, res, next) {
+    try {
+        chat.addchatconnect(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
 module.exports = router;

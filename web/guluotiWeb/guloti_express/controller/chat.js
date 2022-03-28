@@ -70,6 +70,31 @@ const chat = {
         } catch (error) {
             next(error)
         }
+    },
+
+    //创建新聊天连接
+    /*
+    req.body.from_userid 发送方id
+    req.body.to_userid  接收方id
+     */
+    async addchatconnect(req, res, next) {
+        try {
+            if (req.body.from_userid == req.body.to_userid) {
+                res.json({
+                    code: 20001,
+                    message: '不能跟自己聊天',
+                })
+            }
+            let sqlstr = `insert into chatlist (from_userid,to_userid,content)
+             values (${req.body.from_userid},${req.body.to_userid},'我们可以开始聊天了')`
+            let sqlres = await sqlQuery(sqlstr)
+            res.json({
+                code: 20000,
+                message: '建立连接成功',
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }
 module.exports = chat

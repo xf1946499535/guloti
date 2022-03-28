@@ -52,5 +52,12 @@ router.get('/searchcar', async function (req, res, next) {
         next(error)
     }
 });
-
+//根据品牌分配客服，为前端随机返回在线客服id
+router.get('/disservicesock', async function (req, res, next) {
+    try {
+        cars.disservicesock(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
 module.exports = router;

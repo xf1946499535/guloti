@@ -50,3 +50,14 @@ export const cleanmsglist = (data) => {
         }
     })
 }
+//建立新聊天连接
+export const addchatconnect = (data) => {
+    return lh_axios.request({
+        url: '/glt/chat/addchatconnect',
+        method: 'post',
+        data: {
+            from_userid: data.from_userid,
+            to_userid: data.to_userid
+        }
+    })
+}

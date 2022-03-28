@@ -66,3 +66,14 @@ export const searchcar = (params) => {
         }
     })
 }
+
+//根据品牌分配客服，为前端随机返回在线客服id
+export const disservicesock = (brandid) => {
+    return ln_axios.request({
+        url: '/glt/cars/disservicesock',
+        method: 'get',
+        params: {
+            brandid: brandid
+        }
+    })
+}
