@@ -2,7 +2,7 @@
   <div class="aboutme">
     <div class="aboutme_header">
       <div class="myheaderimg">
-        <img :src="nowheadimg + `?t=${Math.random()}`" alt="" srcset="" />
+        <img :src="nowheadimg + `?t=${Math.random()}`" alt srcset />
       </div>
       <el-upload
         class="avatar-uploader"
@@ -25,20 +25,21 @@
         <el-form-item label="余额">
           <el-input v-model="usernewinfo.balance" disabled></el-input>
         </el-form-item>
-        <el-form-item label="公司">
+        <el-form-item label="公司" v-if="$store.getters.getme.usertype != 'admin'">
           <el-select v-model="usernewinfo.companyid" placeholder="请选择">
             <el-option
               v-for="item in brandlist"
               :key="item.id + 'company'"
               :label="item.brand_name"
               :value="item.id"
-            >
-            </el-option>
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
     </div>
-    <div class="submit"><el-button @click="submit" plain>保存</el-button></div>
+    <div class="submit">
+      <el-button @click="submit" plain>保存</el-button>
+    </div>
     <input id="logout" type="button" value="注销账户" @click="logout" />
   </div>
 </template>
@@ -47,6 +48,7 @@
 import { editUsermessage, getUser } from "@/api/users";
 import { getbrandlist } from "@/api/cars";
 import socket from "@/utils/socket";
+import { filtrouters } from '@/utils/tools'
 
 export default {
   created() {
@@ -82,6 +84,7 @@ export default {
       sessionStorage.removeItem("myid");
       this.$store.commit("setme", null);
       socket.emit("logout");
+      filtrouters()
       this.$message({
         message: "注销成功",
         type: "success",

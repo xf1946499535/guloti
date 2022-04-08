@@ -4,7 +4,7 @@ let options = {
     host: "47.108.230.246",
     //port:"3306",//可选，默认式3306
     user: "xiangfeng",
-    password: "xiangfeng123123",
+    password: "!xiangfeng123123",
     database: "guloti"
 }
 

@@ -4,26 +4,18 @@
   </div>
 </template>
 <script>
+import { filtrouters } from '@/utils/tools'
 import { getUser } from "@/api/users";
 import socket from "@/utils/socket";
 import { getnoreadnum } from "@/api/chat";
 export default {
   created() {
-    let _this = this;
     this.setLoguser();
     socket.on("connect", function () {
       console.log("与服务器建立起socket连接");
     });
-    //牛的
-    socket.on("addnoread", function (res) {
-      let nowlength = _this.$store.getters.getnoreadnum;
-      _this.$store.commit("setnoreadnum", nowlength + res.affectedRows);
-    });
-    if (sessionStorage.getItem("myid")) {
-      getnoreadnum().then((res) => {
-        this.$store.commit("setnoreadnum", res.data.data);
-      });
-    }
+    this.setnoreadnum()
+    //
   },
   beforeDestroy() {
     socket.emit("logout");
@@ -33,11 +25,28 @@ export default {
       if (sessionStorage.getItem("myid")) {
         getUser(sessionStorage.getItem("myid")).then((res) => {
           this.$store.commit("setme", res.data.data);
-          console.log(this.$store.getters.getme);
+          // console.log(this.$store.getters.getme);
           socket.emit("setsocket", sessionStorage.getItem("myid"));
+        }).then(() => {
+          filtrouters()
         });
+      } else {
+        filtrouters()
       }
     },
+    setnoreadnum() {
+      let _this = this;
+      //获取未读消息条数
+      socket.on("addnoread", function (res) {
+        let nowlength = _this.$store.getters.getnoreadnum;
+        _this.$store.commit("setnoreadnum", nowlength + res.affectedRows);
+      });
+      if (sessionStorage.getItem("myid")) {
+        getnoreadnum().then((res) => {
+          this.$store.commit("setnoreadnum", res.data.data);
+        });
+      }
+    }
   },
 };
 </script>

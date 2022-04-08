@@ -34,16 +34,12 @@
             <el-input v-model.number="ruleForm.account"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pwd">
-            <el-input
-              type="password"
-              v-model="ruleForm.pwd"
-              autocomplete="off"
-            ></el-input>
+            <el-input type="password" v-model="ruleForm.pwd" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div class="submit_b" @click="loginsubmit('ruleForm')">
-          <span style="margin-right: 20px; display: inline-block">登</span
-          ><span>录</span>
+          <span style="margin-right: 20px; display: inline-block">登</span>
+          <span>录</span>
         </div>
       </div>
     </div>
@@ -52,6 +48,7 @@
 
 <script>
 // import router from "";
+import { filtrouters } from '@/utils/tools'
 import { login } from "@/api/loginAPI";
 import { getUser } from "@/api/users";
 import { setssoLocal } from "@/utils/sso";
@@ -110,10 +107,13 @@ export default {
                 socket.emit("setsocket", sessionStorage.getItem("myid"));
                 getUser(sessionStorage.getItem("myid")).then((res) => {
                   this.$store.commit("setme", res.data.data);
+                }).then(() => {
+                  filtrouters()
                 });
                 getnoreadnum().then((res) => {
                   this.$store.commit("setnoreadnum", res.data.data);
                 });
+
                 this.$router.go(-1);
               }
             })

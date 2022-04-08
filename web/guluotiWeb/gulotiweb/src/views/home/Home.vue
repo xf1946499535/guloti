@@ -1,18 +1,16 @@
 <template>
   <div class="home">
     <el-container>
-      <el-header
-        ><div class="header">
+      <el-header>
+        <div class="header">
           <div class="h_item logo">
-            <img
-              src="http://47.108.230.246:8080/guloti/GulotiResource/Guloti_Logo.png"
-              alt=""
-            />
+            <img src="http://47.108.230.246:8080/guloti/GulotiResource/Guloti_Logo.png" alt />
           </div>
           <div class="h_item searchbox"></div>
-          <div class="h_item welcome" v-if="$store.getters.getme">
-            {{ $store.getters.getme.name }},欢迎你!
-          </div>
+          <div
+            class="h_item welcome"
+            v-if="$store.getters.getme"
+          >{{ $store.getters.getme.name }},欢迎你!</div>
           <div class="h_item loginbox" v-else>
             <div class="login_btn" @click="routeto('/login')">登录</div>
             <div class="register_btn" @click="routeto('/register')">注册</div>
@@ -24,13 +22,11 @@
               class="item"
               :hidden="$store.getters.getnoreadnum == 0"
             >
-              <el-button size="small" @click="routeto('/chatroom')"
-                >回复</el-button
-              >
+              <el-button size="small" @click="routeto('/chatroom')">回复</el-button>
             </el-badge>
           </div>
-        </div></el-header
-      >
+        </div>
+      </el-header>
       <el-container>
         <el-aside width="120px">
           <el-row class="tac" width="120px">
@@ -43,13 +39,13 @@
                 background-color="rgb(247, 248, 252)"
               >
                 <el-menu-item
-                  v-for="(item, index) in asidelist"
+                  v-for="(item, index) in $store.getters.getmyroutes"
                   :key="index + 'asidelist'"
-                  :index="item.index"
+                  :index="item.meta.title"
                   @click="routeto(item.path)"
                 >
-                  <i :class="item.classicon"></i>
-                  <span slot="title">{{ item.title }}</span>
+                  <i :class="item.meta.icon"></i>
+                  <span slot="title">{{ item.meta.title }}</span>
                 </el-menu-item>
               </el-menu>
             </el-col>
