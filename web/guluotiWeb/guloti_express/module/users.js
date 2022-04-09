@@ -44,6 +44,28 @@ const modusers = {
     async addduct(money, userid) {
         var userres = await sqlQuery(`select * from user where id=${userid}`)
         sqlQuery(`update user set balance=${userres[0].balance+money} where id=${userid}`)
+    },
+    //获取当前时间
+    getCurrentTime() {
+        var date = new Date(); //当前时间
+        var year = date.getFullYear() //返回指定日期的年份
+        var month = modusers.repair(date.getMonth() + 1); //月
+        var day = modusers.repair(date.getDate()); //日
+        var hour = modusers.repair(date.getHours()); //时
+        var minute = modusers.repair(date.getMinutes()); //分
+        var second = modusers.repair(date.getSeconds()); //秒
+        //当前时间 
+        var curTime = year + "-" + month + "-" + day +
+            " " + hour + ":" + minute + ":" + second;
+        return curTime;
+    },
+    //补0
+    repair(i) {
+        if (i >= 0 && i <= 9) {
+            return "0" + i;
+        } else {
+            return i;
+        }
     }
 }
 

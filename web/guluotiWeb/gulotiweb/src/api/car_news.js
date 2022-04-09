@@ -1,26 +1,55 @@
 import ln_axios from '@/utils/locnor'
 import lh_axios from '@/utils/lochttp'
-//首页汽车资讯api
+//首页汽车资讯列表
 /*
-    nums为获取数量，默认为10
+    pagenum为获取数量，默认为10
+    reqnum为请求页面,默认为0
  */
-import axios from 'axios'
-export const getnewslist = (nums = 10) => {
+export const getnewslist = (pagenum = 0, reqnum = 10) => {
     return ln_axios.request({
         url: '/glt/news/carnewslist',
         method: 'get',
         params: {
-            nums: nums
+            pagenum: pagenum,
+            reqnum: reqnum
         }
     })
 }
-
+//获取单个资讯
 export const getnews = (id) => {
     return ln_axios.request({
         url: '/glt/news/carnews',
         method: 'get',
         params: {
             id: id
+        }
+    })
+}
+//新增资讯
+export const addnews = (data) => {
+    return ln_axios.request({
+        url: '/glt/news/addnews',
+        method: 'post',
+        data: {
+            news_title: data.news_title,
+            news_headimg_url: data.news_headimg_url,
+            news_content_type: data.news_content_type,
+            news_video_url: data.news_video_url,
+            news_text: data.news_text,
+        }
+    })
+}
+export const updatenews = (data) => {
+    return ln_axios.request({
+        url: '/glt/news/updatenews',
+        method: 'post',
+        data: {
+            id: data.id,
+            news_title: data.news_title,
+            news_headimg_url: data.news_headimg_url,
+            news_content_type: data.news_content_type,
+            news_video_url: data.news_video_url,
+            news_text: data.news_text,
         }
     })
 }

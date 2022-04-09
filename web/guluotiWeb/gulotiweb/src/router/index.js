@@ -148,6 +148,17 @@ const routes = [{
           name: '/chatroom/chatuser',
           component: () => import( /* webpackChunkName: "about" */ '../views/chatroom/component/chatuser.vue'),
         }]
+      }, {
+        path: '/ctnews',
+        name: 'ctnews',
+        component: () => import( /* webpackChunkName: "about" */ '../views/ctnews/ctnews.vue'),
+        meta: {
+          title: '资讯管理',
+          sidebar: true,
+          require_login: true,
+          icon: 'el-icon-setting',
+          limits: ['admin']
+        },
       },
       {
         path: '/aboutme',
