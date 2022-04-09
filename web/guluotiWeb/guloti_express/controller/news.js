@@ -100,6 +100,25 @@ const news = {
             console.log(error);
             next(error)
         }
+    },
+    //删除资讯
+    /*
+    req.body.id 资讯id
+     */
+    async delnews(req, res, next) {
+        try {
+            let sqlstr = `delete from car_news where id=${req.body.id}`
+            let sqlres = await sqlQuery(sqlstr)
+            res.json({
+                code: 20000,
+                message: "操作成功",
+                data: sqlres[0]
+            })
+
+        } catch (error) {
+            next(error)
+        }
     }
+
 }
 module.exports = news

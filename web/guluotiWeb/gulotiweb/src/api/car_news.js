@@ -39,6 +39,7 @@ export const addnews = (data) => {
         }
     })
 }
+//更新资讯
 export const updatenews = (data) => {
     return ln_axios.request({
         url: '/glt/news/updatenews',
@@ -50,6 +51,16 @@ export const updatenews = (data) => {
             news_content_type: data.news_content_type,
             news_video_url: data.news_video_url,
             news_text: data.news_text,
+        }
+    })
+}
+//删除资讯
+export const delnews = (id) => {
+    return ln_axios.request({
+        url: '/glt/news/delnews',
+        method: 'post',
+        data: {
+            id: id,
         }
     })
 }

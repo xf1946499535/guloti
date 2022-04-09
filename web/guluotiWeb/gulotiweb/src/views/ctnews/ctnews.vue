@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { getnewslist } from "@/api/car_news";
+import { getnewslist, delnews } from "@/api/car_news";
 import newsform from "./components/newsform.vue";
 export default {
   components: {
@@ -129,7 +129,11 @@ export default {
       this.drawer = true;
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      delnews(row.id).then((res) => {
+        this.$message.success("操作成功");
+        this.init()
+      });
+      // console.log(index, row);
     },
     handleClose(done) {
       done();

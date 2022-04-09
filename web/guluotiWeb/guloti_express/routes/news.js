@@ -21,5 +21,9 @@ router.post('/addnews', function (req, res, next) {
 router.post('/updatenews', function (req, res, next) {
     news.updatenews(req, res, next)
 });
+//删除资讯
+router.post('/delnews', function (req, res, next) {
+    news.delnews(req, res, next)
+});
 
 module.exports = router;
