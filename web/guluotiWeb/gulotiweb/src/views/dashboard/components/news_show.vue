@@ -1,18 +1,23 @@
 <template>
   <div class="news_show">
-    <video v-if="videoloading" id="myVideo" class="video-js">
+    <video
+      v-if="videoloading && news_msg.news_content_type == 'video'"
+      id="myVideo"
+      class="video-js"
+    >
       <meta name="referrer" content="never" />
       <source :src="url" type="video/mp4" />
     </video>
     <!-- <video :src="url" controls="controls"></video> -->
     <div class="news_info">
       <div class="news_info_title">{{ news_msg.news_title }}</div>
+      <div class="news_content" v-html="news_msg.news_text"></div>
       <div class="news_info_time">
         <span>发布于{{ news_msg.news_time }}</span>
-        <span>播放{{ news_msg.playtimes }}万次</span>
+        <span>{{ news_msg.playtimes }}万次</span>
       </div>
     </div>
-    <div>{{ news_msg }}</div>
+    <!-- <div>{{ news_msg }}</div> -->
   </div>
 </template>
 
@@ -29,7 +34,7 @@ export default {
       news_msg: {},
       url: "",
       videoloading: false,
-      myPlayer: "",
+      myPlayer: {},
     };
   },
   methods: {
@@ -41,7 +46,9 @@ export default {
           this.videoloading = true;
         })
         .then(() => {
-          this.initVideo();
+          if (this.news_msg.news_content_type == "video") {
+            this.initVideo();
+          }
         });
     },
     initVideo() {
@@ -61,8 +68,12 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    this.myPlayer.dispose();
     next();
+  },
+  beforeDestroy() {
+    if (this.news_msg.news_content_type == "video") {
+      this.myPlayer.dispose();
+    }
   },
 };
 </script>
@@ -70,6 +81,7 @@ export default {
 <style lang="scss">
 .news_show {
   width: 100%;
+  min-height: 800px;
   #myVideo {
     width: 100%;
     height: 500px;
@@ -78,6 +90,11 @@ export default {
     font-size: 1.3rem;
     line-height: 1.5rem;
     height: 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .news_content {
+    font-size: 1rem;
+    line-height: 1.5rem;
     margin: 1.2rem 0;
   }
   .news_info_time {

@@ -13,7 +13,7 @@
           {{ this.newsmsg.news_title }}
         </div>
         <div class="news_info_time">
-          <span>{{ this.newsmsg.playtimes }}万次播放</span>
+          <span>{{ this.newsmsg.playtimes }}万次浏览</span>
           <br />
           <span>{{ this.newsmsg.news_time }}</span>
         </div>
@@ -42,9 +42,11 @@ export default {
   .newsimg {
     font-size: 0;
     width: 100%;
+    height: 150px;
     overflow: hidden;
     img {
       width: 100%;
+      height: 100%;
       transition: all 0.2s;
     }
     img:hover {

@@ -7,10 +7,14 @@
       label-width="200px"
       class="demo-ruleForm"
     >
-      <el-form-item label="新闻标题" prop="news_title">
+      <el-form-item label="新闻标题" label-width="100px" prop="news_title">
         <el-input v-model="nowform.news_title"></el-input>
       </el-form-item>
-      <el-form-item label="新闻展示图" prop="news_headimg_url">
+      <el-form-item
+        label="新闻展示图"
+        label-width="100px"
+        prop="news_headimg_url"
+      >
         <el-upload
           class="avatar-uploader"
           title="新闻展示图"
@@ -28,16 +32,29 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="新闻类型" prop="news_content_type">
+      <el-form-item
+        label="新闻类型"
+        label-width="100px"
+        prop="news_content_type"
+      >
         <el-radio-group v-model="nowform.news_content_type">
           <el-radio label="text"></el-radio>
           <!-- <el-radio label="video"></el-radio> -->
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="文本内容" prop="news_text">
-        <el-input type="textarea" v-model="nowform.news_text"></el-input>
+      <el-form-item label="文本内容" label-width="100px" prop="news_text">
+        <!-- <el-input type="textarea" v-model="nowform.news_text"></el-input> -->
+        <quill-editor
+          v-model="nowform.news_text"
+          ref="myQuillEditor"
+          :options="editorOption"
+          @focus="onEditorFocus($event)"
+          @blur="onEditorBlur($event)"
+          @change="onEditorChange($event)"
+        >
+        </quill-editor>
       </el-form-item>
-      <el-form-item>
+      <el-form-item label-width="100px">
         <el-button v-if="!isedit" type="primary" @click="submitForm('nowform')"
           >立即创建</el-button
         >
@@ -57,6 +74,14 @@ export default {
   data() {
     return {
       imageUrl: "",
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // toggled buttons
+            ["blockquote", "code-block"],
+          ],
+        },
+      },
       rules: {
         news_title: [
           { required: true, message: "请输入标题", trigger: "blur" },
@@ -152,12 +177,21 @@ export default {
       // this.$refs[formName].resetFields();
       this.$emit("resetForm");
     },
+    // 准备富文本编辑器
+    onEditorReady(editor) {},
+    // 富文本编辑器 失去焦点事件
+    onEditorBlur(editor) {},
+    // 富文本编辑器 获得焦点事件
+    onEditorFocus(editor) {},
+    // 富文本编辑器 内容改变事件
+    onEditorChange(editor) {},
   },
 };
 </script>
 
 <style lang="scss">
 .newsform {
+  width: 100%;
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

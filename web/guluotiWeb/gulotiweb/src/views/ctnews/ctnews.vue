@@ -94,7 +94,7 @@ export default {
       currentPage3: 5,
       currentPage4: 4,
       drawer: false,
-      direction: "rtl",
+      direction: "ltr",
       //新闻列表
       newslist: [],
       search: "",
@@ -131,7 +131,7 @@ export default {
     handleDelete(index, row) {
       delnews(row.id).then((res) => {
         this.$message.success("操作成功");
-        this.init()
+        this.init();
       });
       // console.log(index, row);
     },
