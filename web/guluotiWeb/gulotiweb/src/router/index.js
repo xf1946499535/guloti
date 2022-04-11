@@ -161,6 +161,18 @@ const routes = [{
         },
       },
       {
+        path: '/ctcars',
+        name: 'ctcars',
+        component: () => import( /* webpackChunkName: "about" */ '../views/ctcars/ctcars.vue'),
+        meta: {
+          title: '车辆管理',
+          sidebar: true,
+          require_login: true,
+          icon: 'el-icon-setting',
+          limits: ['store']
+        },
+      },
+      {
         path: '/aboutme',
         name: 'aboutme',
         component: () => import( /* webpackChunkName: "about" */ '../views/aboutme/aboutme.vue'),

@@ -55,7 +55,7 @@ const news = {
                 req.body.news_text,
                 modusers.getCurrentTime()
             ]
-            console.log(sqldata);
+            // console.log(sqldata);
             var sqlres = await sqlQuery(str, sqldata)
             res.json({
                 code: 20000,
@@ -63,7 +63,7 @@ const news = {
                 data: sqlres[0]
             })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             next(error)
         }
     },
@@ -114,7 +114,6 @@ const news = {
                 message: "操作成功",
                 data: sqlres[0]
             })
-
         } catch (error) {
             next(error)
         }

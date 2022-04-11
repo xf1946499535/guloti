@@ -38,7 +38,10 @@ const users = {
                     message: '修改失败，密码错误'
                 })
             }
+            //通过companyid重置修改用户身份
+            req.body.usernewinfo.usertype = req.body.usernewinfo.companyid > 0 ? 'store' : 'normal'
             var sqlstr = `update user set `
+            // console.log(req.body.usernewinfo);
             for (let key in req.body.usernewinfo) {
                 sqlstr += `${key}='${req.body.usernewinfo[key]}',`
             }

@@ -2,13 +2,13 @@
   <div class="news_show">
     <video
       v-if="videoloading && news_msg.news_content_type == 'video'"
-      id="myVideo"
-      class="video-js"
-    >
-      <meta name="referrer" content="never" />
-      <source :src="url" type="video/mp4" />
-    </video>
-    <!-- <video :src="url" controls="controls"></video> -->
+      :src="url"
+      autoplay="autoplay"
+      muted="muted"
+      controls="controls"
+      height="400"
+      width="700"
+    ></video>
     <div class="news_info">
       <div class="news_info_title">{{ news_msg.news_title }}</div>
       <div class="news_content" v-html="news_msg.news_text"></div>
@@ -50,21 +50,6 @@ export default {
             this.initVideo();
           }
         });
-    },
-    initVideo() {
-      //初始化视频方法
-      this.myPlayer = this.$video("myVideo", {
-        //确定播放器是否具有用户可以与之交互的控件。没有控件，启动视频播放的唯一方法是使用autoplay属性或通过Player API。
-        controls: true,
-        //自动播放属性,muted:静音播放
-        autoplay: "muted",
-        //建议浏览器是否应在<video>加载元素后立即开始下载视频数据。
-        preload: "auto",
-        // //设置视频播放器的显示宽度（以像素为单位）
-        // width: "800px",
-        // //设置视频播放器的显示高度（以像素为单位）
-        // height: "400px",
-      });
     },
   },
   beforeRouteLeave(to, from, next) {

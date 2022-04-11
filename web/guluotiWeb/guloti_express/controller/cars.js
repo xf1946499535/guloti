@@ -22,18 +22,17 @@ const cars = {
         }
     },
 
-    //根据条件获取车辆列表
+    //根据条件获取车辆列表(客户多条件查询)
     async getcarslist(req, res, next) {
         /*
         req.query.myscreen
-          0：品牌
+          0：品牌信息 {}
           1：价格下限
           2:价格上限
           3:级别
         req.query.searchstr 用户输入的查询字符
         req.query.reqnum 需要返回的记录最大请求条数
         req.query.pagenum 需要返回的记录起点位置
-
         */
         try {
             var str = `select * from car where 1=1`
