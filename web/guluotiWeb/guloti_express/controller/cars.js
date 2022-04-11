@@ -207,7 +207,7 @@ const cars = {
             let brandres = await sqlQuery(brandstr)
             let carstr = `insert into car (car_name,car_at,car_engine,car_introduce,car_manufacture_addr
                 ,car_price_high,car_price_low,car_showimg,car_type,car_brand,car_brandid,
-                car_manufacture_date) value (?,?,?,?,?,?,?,?,?,?,?,?)`
+                car_manufacture_date,car_exhibition_list) value (?,?,?,?,?,?,?,?,?,?,?,?,?)`
             let data = [
                 req.body.car_name,
                 req.body.car_at,
@@ -220,7 +220,8 @@ const cars = {
                 req.body.car_type,
                 brandres[0].brand_name,
                 brandres[0].id,
-                modusers.getCurrentTime()
+                modusers.getCurrentTime(),
+                'https://p3-dcd.byteimg.com/img/tos-cn-i-0000/0bedbb2a599248d2b4a5d33f8ec85a01~tplv-resize:2048:0.jpg$https://p3-dcd.byteimg.com/img/tos-cn-i-0000/695fdce6ec8e4d19a3fd08d42c64f644~tplv-resize:2048:0.jpg$https://p1-dcd.byteimg.com/img/tos-cn-i-0000/d1b1234e480f424eb437abe294fc08b9~tplv-resize:2048:0.jpg'
             ]
             let carres = await sqlQuery(carstr, data)
             res.json({
