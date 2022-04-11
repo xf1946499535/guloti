@@ -7,52 +7,66 @@
       label-width="200px"
       class="demo-ruleForm"
     >
-      <el-form-item label="新闻标题" label-width="100px" prop="news_title">
-        <el-input v-model="nowform.news_title"></el-input>
+      <el-form-item label="汽车名" label-width="100px" prop="car_name">
+        <el-input v-model="nowform.car_name"></el-input>
       </el-form-item>
-      <el-form-item
-        label="新闻展示图"
-        label-width="100px"
-        prop="news_headimg_url"
-      >
+      <el-form-item label="展示图" label-width="100px" prop="car_showimg">
         <el-upload
           class="avatar-uploader"
-          title="新闻展示图"
+          title="展示图"
           action="http://localhost:8200/api/glt/users/uploadfile"
-          :data="newstitle_upload"
+          :data="car_name_upload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
           <img
-            v-if="nowform.news_headimg_url"
-            :src="nowform.news_headimg_url"
+            v-if="nowform.car_showimg"
+            :src="nowform.car_showimg + `?t=${Math.floor(Math.random() * 100)}`"
             class="avatar"
+            alt
+            srcset
           />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item
-        label="新闻类型"
-        label-width="100px"
-        prop="news_content_type"
-      >
-        <el-radio-group v-model="nowform.news_content_type">
-          <el-radio label="text"></el-radio>
+      <el-form-item label="车型" label-width="100px" prop="car_type">
+        <el-radio-group v-model="nowform.car_type">
+          <el-radio label="SUV"></el-radio>
+          <el-radio label="MPV"></el-radio>
+          <el-radio label="轿车"></el-radio>
+          <el-radio label="跑车"></el-radio>
           <!-- <el-radio label="video"></el-radio> -->
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="文本内容" label-width="100px" prop="news_text">
-        <!-- <el-input type="textarea" v-model="nowform.news_text"></el-input> -->
-        <quill-editor
-          v-model="nowform.news_text"
-          ref="myQuillEditor"
-          :options="editorOption"
-          @focus="onEditorFocus($event)"
-          @blur="onEditorBlur($event)"
-          @change="onEditorChange($event)"
-        >
-        </quill-editor>
+      <el-form-item label="发动机型号" label-width="100px" prop="car_engine">
+        <el-input v-model="nowform.car_engine"></el-input>
+      </el-form-item>
+      <el-form-item label="变速箱型号" label-width="100px" prop="car_at">
+        <el-input v-model="nowform.car_at"></el-input>
+      </el-form-item>
+      <el-form-item label="价格上限" label-width="100px" prop="car_price_high">
+        <el-input v-model="nowform.car_price_high"></el-input>
+      </el-form-item>
+      <el-form-item label="价格下限" label-width="100px" prop="car_price_low">
+        <el-input v-model="nowform.car_price_low"></el-input>
+      </el-form-item>
+      <el-form-item
+        label="产地"
+        label-width="100px"
+        prop="car_manufacture_addr"
+      >
+        <el-input v-model="nowform.car_manufacture_addr"></el-input>
+      </el-form-item>
+      <el-form-item
+        label="发布日期"
+        label-width="100px"
+        prop="car_manufacture_date"
+      >
+        <el-input v-model="nowform.car_manufacture_date" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="介绍信息" label-width="100px" prop="car_introduce">
+        <el-input type="textarea" v-model="nowform.car_introduce"></el-input>
       </el-form-item>
       <el-form-item label-width="100px">
         <el-button v-if="!isedit" type="primary" @click="submitForm('nowform')"
@@ -68,9 +82,9 @@
 </template>
 
 <script>
-import { addnews, updatenews } from "@/api/car_news";
+import { addcar, updatecar } from "@/api/cars";
 export default {
-  props: ["nowform", "isedit"],
+  props: ["nowform", "isedit", "nowform2"],
   data() {
     return {
       imageUrl: "",
@@ -83,38 +97,51 @@ export default {
         },
       },
       rules: {
-        news_title: [
-          { required: true, message: "请输入标题", trigger: "blur" },
+        car_name: [
+          { required: true, message: "请输入车名", trigger: "blur" },
           {
-            min: 3,
+            // min: 1,
             max: 20,
-            message: "长度在 3 到 20 个字符",
+            message: "长度在 1 到 20 个字符",
             trigger: "blur",
           },
         ],
-        news_headimg_url: [
+        car_showimg: [
           { required: true, message: "请上传新闻简图", trigger: "blur" },
         ],
-        news_content_type: [
+        car_type: [
           {
             required: true,
-            message: "请选择新闻类型,当前只支持text类型",
+            message: "请选择车型",
             trigger: "change",
           },
         ],
-        news_text: [
-          { required: true, message: "请填写新闻内容", trigger: "blur" },
+        car_at: [
+          { required: true, message: "请填写变速箱型号", trigger: "blur" },
+        ],
+        car_engine: [
+          { required: true, message: "请填写发动机型号", trigger: "blur" },
+        ],
+        car_price_high: [
+          { required: true, message: "请填写价格上限", trigger: "blur" },
+        ],
+        car_price_low: [
+          { required: true, message: "请填写价格下限", trigger: "blur" },
+        ],
+        car_introduce: [
+          { required: true, message: "请填写汽车介绍信息", trigger: "blur" },
+        ],
+        car_manufacture_addr: [
+          { required: true, message: "请填写汽车产地", trigger: "blur" },
         ],
       },
     };
   },
   computed: {
-    newstitle_upload: {
+    car_name_upload: {
       get: function () {
         return {
-          path: `news_headimg/${
-            this.nowform.news_title + Math.floor(Math.random() * 100)
-          }.jpg`,
+          path: `cars_headimg/${this.nowform.car_name}.jpg`,
         };
       },
       //   set: function (val) {
@@ -126,7 +153,7 @@ export default {
   methods: {
     handleAvatarSuccess(res, file) {
       //   this.imageUrl = URL.createObjectURL(file.raw);
-      this.nowform.news_headimg_url = res.url;
+      this.nowform.car_showimg = res.url;
       // console.log(this.imageUrl);
       // console.log(res.url);
     },
@@ -139,16 +166,20 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      if (!this.nowform.news_title) {
-        this.$message.error("新闻名字长度必须大于3才能上传图片");
+      if (!this.nowform.car_name) {
+        this.$message.error("汽车名字长度必须大于1才能上传图片");
       }
-      return isJPG && isLt2M && this.nowform.news_title.length > 3;
+      return isJPG && isLt2M && this.nowform.car_name.length >= 2;
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          addnews(this.nowform).then((res) => {
-            this.$message("新增成功");
+          // addnews(this.nowform).then((res) => {
+          //   this.$message("新增成功");
+          //   this.$emit("datachange");
+          // });
+          addcar(this.nowform).then((res) => {
+            this.$message.success("操作成功");
             this.$emit("datachange");
           });
         } else {
@@ -160,9 +191,10 @@ export default {
     saveform(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          updatenews(this.nowform)
+          updatecar(this.nowform)
             .then((res) => {
               this.$message.success("更新成功");
+              this.$emit("datachange");
             })
             .catch((err) => {
               this.$message.error("更新失败");

@@ -163,6 +163,7 @@ export default {
           updatenews(this.nowform)
             .then((res) => {
               this.$message.success("更新成功");
+              this.$emit("datachange");
             })
             .catch((err) => {
               this.$message.error("更新失败");

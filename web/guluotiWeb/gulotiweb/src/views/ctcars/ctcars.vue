@@ -25,17 +25,23 @@
     <el-container>
       <el-table
         :data="
-          newslist.filter(
+          carlist.filter(
             (data) =>
               !search ||
-              data.news_title.toLowerCase().includes(search.toLowerCase())
+              data.car_name.toLowerCase().includes(search.toLowerCase())
           )
         "
         style="width: 100%"
       >
-        <el-table-column label="日期" prop="news_time"> </el-table-column>
-        <el-table-column label="标题" prop="news_title"> </el-table-column>
-        <el-table-column label="类型" prop="news_content_type">
+        <el-table-column label="发布日期" prop="car_manufacture_date">
+        </el-table-column>
+        <el-table-column label="车名" prop="car_name"> </el-table-column>
+        <el-table-column label="车型" prop="car_type"> </el-table-column>
+        <el-table-column label="价格上限" prop="car_price_high">
+        </el-table-column>
+        <el-table-column label="价格上限" prop="car_price_low">
+        </el-table-column>
+        <el-table-column label="产地" prop="car_manufacture_addr">
         </el-table-column>
 
         <el-table-column align="right">
@@ -78,8 +84,7 @@
 </template>
 
 <script>
-import { getnewslist, delnews } from "@/api/car_news";
-import { getcarslist } from "@/api/cars";
+import { getcarslist, delcar } from "@/api/cars";
 import carsform from "./components/carsform.vue";
 export default {
   components: {
@@ -103,30 +108,44 @@ export default {
       isedit: false,
       //查询条件数组
       /*
-      0：品牌名
+      0：品牌id
       1：价格下限
       2:价格上限
       3:级别
       4:车名模糊查询字符串
        */
-      myscreen: ["不限", -10000, 10000, "不限"],
+      myscreen: [this.$store.getters.getme.companyid, -10000, 10000, "不限"],
       //查询到的车辆数组
       carlist: [],
+      // nowform: {
+      //   id: "",
+      //   news_title: "",
+      //   news_headimg_url: "",
+      //   news_content_type: "",
+      //   news_video_url: "",
+      //   news_text: "",
+      // },
       nowform: {
         id: "",
-        news_title: "",
-        news_headimg_url: "",
-        news_content_type: "",
-        news_video_url: "",
-        news_text: "",
+        car_name: "",
+        car_brandid: this.$store.getters.getme.companyid,
+        car_showimg: "",
+        car_engine: "",
+        car_at: "",
+        car_manufacture_addr: "",
+        car_manufacture_date: "",
+        car_price_high: "",
+        car_price_low: "",
+        car_type: "",
+        car_introduce: "",
       },
     };
   },
   methods: {
     init() {
-      getnewslist().then((res) => {
-        this.newslist = res.data.data;
-      });
+      // getnewslist().then((res) => {
+      //   this.newslist = res.data.data;
+      // });
       getcarslist(this.myscreen).then((res) => {
         this.carlist = res.data.data;
         console.log(this.carlist);
@@ -139,13 +158,13 @@ export default {
       console.log(`当前页: ${val}`);
     },
     handleEdit(index, row) {
-      console.log(row);
+      // console.log(row);
       this.nowform = row;
       this.isedit = true;
       this.drawer = true;
     },
     handleDelete(index, row) {
-      delnews(row.id).then((res) => {
+      delcar(row.id).then((res) => {
         this.$message.success("操作成功");
         this.init();
       });
@@ -161,11 +180,17 @@ export default {
     resetForm() {
       this.nowform = {
         id: "",
-        news_title: "",
-        news_headimg_url: "",
-        news_content_type: "",
-        news_video_url: "",
-        news_text: "",
+        car_name: "",
+        car_brandid: this.$store.getters.getme.companyid,
+        car_showimg: "",
+        car_engine: "",
+        car_manufacture_addr: "",
+        car_manufacture_date: "",
+        car_at: "",
+        car_price_high: "",
+        car_price_low: "",
+        car_type: "",
+        car_introduce: "",
       };
     },
   },

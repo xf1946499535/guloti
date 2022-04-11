@@ -60,4 +60,29 @@ router.get('/disservicesock', async function (req, res, next) {
         next(error)
     }
 });
+//新增汽车
+router.post('/addcar', async function (req, res, next) {
+    try {
+        cars.addcar(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
+
+//更新车辆
+router.post('/updatecar', async function (req, res, next) {
+    try {
+        cars.updatecar(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
+//删除
+router.post('/delcar', async function (req, res, next) {
+    try {
+        cars.delcar(req, res, next)
+    } catch (error) {
+        next(error)
+    }
+});
 module.exports = router;

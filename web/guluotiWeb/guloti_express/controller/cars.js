@@ -26,7 +26,7 @@ const cars = {
     async getcarslist(req, res, next) {
         /*
         req.query.myscreen
-          0：品牌信息 {}
+          0：品牌id
           1：价格下限
           2:价格上限
           3:级别
@@ -38,7 +38,7 @@ const cars = {
             var str = `select * from car where 1=1`
             var term = ''
             if (req.query.myscreen[0] != -1) {
-                term += ` and car_brand = '${req.query.myscreen[0]}'`
+                term += ` and car_brandid = '${req.query.myscreen[0]}'`
             }
             if (req.query.myscreen[1] != -1) {
                 term += ` and car_price_low >= ${req.query.myscreen[1]} and car_price_high <= ${req.query.myscreen[2]}`
@@ -49,7 +49,7 @@ const cars = {
             if (req.query.searchstr != '') {
                 term += ` and car_name like '%${req.query.searchstr}%'`
             }
-            term += ` limit ${req.query.pagenum},${req.query.reqnum}`
+            term += ` order by id desc limit ${req.query.pagenum},${req.query.reqnum}`
             var sqlres = await sqlQuery(str + term)
             res.status(200).json({
                 code: 20000,
@@ -182,6 +182,116 @@ const cars = {
                     data: serviceid
                 })
             }
+        } catch (error) {
+            next(error)
+        }
+    },
+    //新增汽车
+    /*
+    req.body.userid 上传者客服id
+    req.body.car_name 汽车名字
+    req.body.car_at 车辆变速箱型号
+    req.body.car_engine 汽车引擎型号
+    req.body.car_introduce 车辆介绍
+    req.body.car_manufacture_addr 产地
+    req.body.car_price_high 价格上限
+    req.body.car_price_low 价格下限
+    req.body.car_showimg 车展图
+    req.body.car_type 车型
+     */
+    async addcar(req, res, next) {
+        try {
+            // console.log(req.body);
+            //根据上传者id获取所属公司信息
+            let brandstr = `select brand.*,user.companyid from user left join brand on brand.id=user.companyid where user.id=${req.body.userid}`
+            let brandres = await sqlQuery(brandstr)
+            let carstr = `insert into car (car_name,car_at,car_engine,car_introduce,car_manufacture_addr
+                ,car_price_high,car_price_low,car_showimg,car_type,car_brand,car_brandid,
+                car_manufacture_date) value (?,?,?,?,?,?,?,?,?,?,?,?)`
+            let data = [
+                req.body.car_name,
+                req.body.car_at,
+                req.body.car_engine,
+                req.body.car_introduce,
+                req.body.car_manufacture_addr,
+                req.body.car_price_high,
+                req.body.car_price_low,
+                req.body.car_showimg,
+                req.body.car_type,
+                brandres[0].brand_name,
+                brandres[0].id,
+                modusers.getCurrentTime()
+            ]
+            let carres = await sqlQuery(carstr, data)
+            res.json({
+                code: 20000,
+                message: '操作成功',
+                data: carres[0]
+            })
+            // let sqlstr = `insert into car ()`
+        } catch (error) {
+            next(error)
+        }
+
+    },
+    //新增汽车
+    /*
+    req.body.id 更新的汽车id
+    req.body.car_name 汽车名字
+    req.body.car_at 车辆变速箱型号
+    req.body.car_engine 汽车引擎型号
+    req.body.car_introduce 车辆介绍
+    req.body.car_manufacture_addr 产地
+    req.body.car_price_high 价格上限
+    req.body.car_price_low 价格下限
+    req.body.car_showimg 车展图
+    req.body.car_type 车型
+     */
+    async updatecar(req, res, next) {
+        try {
+            // console.log(req.body);
+            //根据上传者id获取所属公司信息
+            // let brandstr = `select brand.*,user.companyid from user left join brand on brand.id=user.companyid where user.id=${req.body.userid}`
+            // let brandres = await sqlQuery(brandstr)
+            let carstr = `update car set car_name=?,car_at=?,car_engine=?,car_introduce=?,car_manufacture_addr=?
+                ,car_price_high=?,car_price_low=?,car_showimg=?,car_type=? where id=?`
+            let data = [
+                req.body.car_name,
+                req.body.car_at,
+                req.body.car_engine,
+                req.body.car_introduce,
+                req.body.car_manufacture_addr,
+                req.body.car_price_high,
+                req.body.car_price_low,
+                req.body.car_showimg,
+                req.body.car_type,
+                req.body.id
+            ]
+            let carres = await sqlQuery(carstr, data)
+            res.json({
+                code: 20000,
+                message: '操作成功',
+                data: carres[0]
+            })
+            // let sqlstr = `insert into car ()`
+        } catch (error) {
+            next(error)
+        }
+
+    },
+    //删除资讯
+    /*
+    req.body.id 资讯id
+     */
+    async delcar(req, res, next) {
+        try {
+            let sqlstr = `delete from car where id=${req.body.id}`
+            let sqlres = await sqlQuery(sqlstr)
+            res.json({
+                code: 20000,
+                message: "操作成功",
+                data: sqlres[0]
+            })
         } catch (error) {
             next(error)
         }

@@ -19,7 +19,7 @@
             class="branditem"
             v-for="(brand, brandindex) in brandlist"
             :key="brandindex + 'brand'"
-            :class="{ branditemchoosed: myscreen[0] == brand.brand_name }"
+            :class="{ branditemchoosed: myscreen[0] == brand.id }"
             @click="changebrand(brand)"
           >
             <img :src="brand.brand_logo" alt="" />
@@ -162,7 +162,7 @@ export default {
       brandlist: [],
       //查询条件数组
       /*
-      0：品牌名
+      0：品牌id
       1：价格下限
       2:价格上限
       3:级别
@@ -232,7 +232,7 @@ export default {
      */
     changebrand(brand) {
       this.loading = true;
-      this.$set(this.myscreen, 0, brand.brand_name);
+      this.$set(this.myscreen, 0, brand.id);
       getcarslist(this.myscreen, this.searchcontent).then((res) => {
         this.cars = res.data.data;
         this.loading = false;
