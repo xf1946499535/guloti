@@ -235,7 +235,7 @@ const cars = {
         }
 
     },
-    //新增汽车
+    //更新汽车
     /*
     req.body.id 更新的汽车id
     req.body.car_name 汽车名字
