@@ -84,6 +84,7 @@ const users = {
                         // console.log(response);
                         fs.unlinkSync(req.files[0].path);
                         res.json(response)
+                        
                     }
                 });
             });
